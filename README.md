@@ -18,10 +18,14 @@ app using your library should use.
 
 **This project is still a pipe dream at the moment. Nothing to see here yet....**
 
+
 ## Download
+
 Nothing here yet  :(
 
+
 ## Install
+
 ```sh
 npm install --save anylogger
 ```
@@ -42,6 +46,7 @@ const log = anylogger('my-module')
 ```
 
 ## Logging API
+
 Anylogger does not have a logging implementation. All it does is use whatever logger
 framework that it knows about and is present in the project. If it is unable to find
 any logger, it returns a dummy object that uses whatever native logging capability is
@@ -62,7 +67,48 @@ anylogger to pick up on whatever choice he made and run with it.
 
 So what does this API look like?
 
+### anylogger
+
+```js
+function anylogger(name, level)
 ```
+
+The main function to call to get a logger.
+Returns a logger based on two arguments, both of
+which are optional.
+
+#### name
+String. Optional. Defaults to `''` (empty string).
+The name of the logger. Used by frameworks that
+support named loggers, such as `debug` and `ulog`.
+The recommended format is `<package-name>[:<sub>[:<sub> [..]]]`,
+as this is the [convention](https://www.npmjs.com/package/debug#conventions)
+used by the highly popular `debug` module. But you
+are free to pick any name you want, or none at all.
+
+#### level
+Number. Optional. Defaults to `undefined`.
+The desired log level for the logger. As the anylogger
+API does not allow for setting the level, only for
+reading it, this is the only way to influence the log
+level. This parameter will only allow you to **lower**
+the log level, never increase it.
+
+
+### The returned logger
+
+The returned logger might be an object or it might be
+a function. But you should use it as if it was an
+object and never try to call it.
+
+> `debug` in particular returns a functions. Anylogger
+just adds the needed methods and attributes to make it
+work as expected.
+
+The logger object should look something like this in
+pseudo code:
+
+```js
 {
   name: String, read-only
   level: Number, read-only
@@ -71,6 +117,7 @@ So what does this API look like?
   warn: Function
   info: Function
   log: Function
+  debug: Function
   trace: Function
 
   NONE: Number, read-only
@@ -78,6 +125,7 @@ So what does this API look like?
   WARN: Number, read-only
   INFO: Number, read-only
   LOG: Number, read-only
+  DEBUG: Number, read-only
   TRACE: Number, read-only
 }
 ```
@@ -87,14 +135,27 @@ A logger has a name. This name is the argument you passed to `anylogger`.
 A logger has a level. This level determines whether messages logged with any
 of the logging methods will actually be logged or will be just ignored.
 
-A logger has 5 logging methods, each corresponding to a higher logging level.
+A logger has logging methods, each corresponding to a higher logging level.
 `error()` logs at level `ERROR`, `warn()` at `WARN` etc.
 
-A logger has 6 constants corresponding to log levels. `NONE` should have a lower
-value than `ERROR`, `ERROR` a lower value than `WARN` etc.
+A logger has constants corresponding to log levels, and a constant `NONE` for
+when logging is completely disabled (e.g. `silent` flag).
+`NONE` should have a lower value than `ERROR`, `ERROR` a lower value than `WARN` etc.
 
 A message will be logged only when `log.level >= lvl`, where `lvl` is the level
 constant corresponding to the logging method being invoked.
+
+There are no specific values set for the different levels. Anylogger will use the
+underlying framework's levels if possible, or will re-arrange them as needed, to
+ensure that the statements above will always be true.
+
+Note that all logging methods here are part of the default [console API](https://developer.mozilla.org/en-US/docs/Web/API/Console) as specified on MDN,
+but not all platforms and frameworks support all of them. In particular the `debug`
+method is not available everywhere and the `trace` method functions different on
+different platforms. On Node JS it will print a stacktrace with each message.
+Anylogger will make sure that the `debug` function is polyfilled if needed, but it
+does not attempt to change the actual implementation of any method.
+
 
 ## Example
 
@@ -109,12 +170,32 @@ var error = new Error('Oh no!');
 log.error('Something went wrong', error);
 ```
 
+## Colors?
+
+Anylogger does not directly support colors, but it does not prevent their use
+either. All of the frameworks supported by anylogger support colors, but there
+are (big) implementation differences and anylogger makes no attempt to normalize them.
+
+However nothing is stopping you from using colors. On Node JS you could use the
+popular `chalk` library for example. But be aware that the console API itself
+is badly standardized and that only gets worse if you try to combine that with
+colors. It works, but you need to take care of platform differences yourself
+and you might loose some advantages of the anylogger abstraction.
+
+The choice is yours.
+
+
 ## Issues
+
 Add an issue in this project's [issue tracker](https://github.com/download/anylogger/issues)
 to let me know of any problems you find, or questions you may have.
 
+
 ## Copyright
+
 Copyright 2016 by [Stijn de Witt](http://StijnDeWitt.com).
 
+
 ## License
+
 Licensed under the MIT Open Source license.
