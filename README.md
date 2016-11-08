@@ -170,6 +170,51 @@ var error = new Error('Oh no!');
 log.error('Something went wrong', error);
 ```
 
+## How does it work?
+
+This module only provides two functions:
+* anylogger (discussed above)
+* anylogger.providers
+
+Internally, anylogger maintains a list of logging providers. Each entry in
+this list should be an the name of an anylogger adapter module. For example, 
+the adapter for `debug` might be in the NPM package `anylogger-debug`. In that 
+case we call it an external adapter. Or, it might be in the NPM package 
+`debug` itself. The provider entry might be `debug/anylogger` for example. In 
+such cases, where the logging framework comes bundled with an anylogger adapter, 
+we call it a native adapter. Native adapters are ideal, because they allow for 
+things to 'just work', without configuration or unnecessary overhead.
+
+When anylogger is called, it checks whether a logging adapter has been found
+already and if so, uses it. If not, it will run through the list of providers,
+attempting to require the adapter. If it succeeds, the adapter is saved for
+later and used to create a logger. If it fails the next provider is tried.
+If the list of providers is exhausted, it falls back to creating a minimal
+logger using either the console (Node JS, browsers) or `print` (Nashorn).
+
+A list of all logging frameworks that are either natively compatible with
+anylogger, or come bundled with a native adapter, or are just very popular,
+is included by default in anylogger. But anyone can write an adapter for
+anylogger and use the `anylogger.providers` function to register it.
+
+### anylogger.providers(provider, delete)
+To keep the API surface as small as possible, the list of providers can be
+read as well as manipulated using a single function.
+
+When called without arguments, `anylogger.providers` will return an array
+of anylogger adapter module names. This array should be treated as immutable.
+
+When the `provider` argument is passed and is a string, the provider will
+be added to the list it it was not present already.
+
+When the `provider` argument is passed and is an array, all providers in the
+array will be added to the list it they were not present already.
+
+When the `provider` argument is passed, and the `delete` argument is passed 
+and is `null`, any given provider(s) present in the list of registered providers
+will be removed.
+
+
 ## Colors?
 
 Anylogger does not directly support colors, but it does not prevent their use
