@@ -1,6 +1,8 @@
 # anylogger <sub><sup>v0.1.0</sup></sub>
 ### Get a logger. Any logger.
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Download/anylogger.svg)](https://greenkeeper.io/)
+
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
 [![license](https://img.shields.io/npm/l/anylogger.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![travis](https://img.shields.io/travis/Download/anylogger.svg)](https://travis-ci.org/Download/anylogger)
