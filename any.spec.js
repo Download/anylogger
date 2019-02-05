@@ -7,12 +7,12 @@ var sandbox = sinon.sandbox.create()
 describe('anylogger([name, [options]]) => log', function() {
   beforeEach(function(){
     // spy on the console methods
-    sandbox.spy(console, 'trace')
-    sandbox.spy(console, 'debug')
-    sandbox.spy(console, 'log')
-    sandbox.spy(console, 'info')
-    sandbox.spy(console, 'warn')
-    sandbox.spy(console, 'error')
+    if (console.trace) sandbox.spy(console, 'trace')
+    if (console.debug) sandbox.spy(console, 'debug')
+    if (console.trace) sandbox.spy(console, 'log')
+    if (console.trace) sandbox.spy(console, 'info')
+    if (console.trace) sandbox.spy(console, 'warn')
+    if (console.trace) sandbox.spy(console, 'error')
   })
 
   afterEach(function(){
@@ -155,11 +155,10 @@ describe('anylogger([name, [options]]) => log', function() {
       expect(log.error).to.be.a('function')
     })
 
-    it('can be invoked to log a message at `debug` level', function(){
-      var log = anylogger('test', {level:'debug'})
+    it('can be invoked to log a message', function(){
+      var log = anylogger('test')
       log('message')
-      expect(console.log.callCount).to.equal(0)
-      expect(console.debug.callCount).to.equal(1)
+      expect(console.debug && console.debug.callCount || console.log.callCount).to.equal(1)
     })
 
     it('can be invoked with a level name as first argument to log a message at that level', function(){
