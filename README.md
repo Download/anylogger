@@ -269,7 +269,7 @@ to let me know of any problems you find, or questions you may have.
 
 ## Copyright
 
-Copyright 2016 by [Stijn de Witt](http://StijnDeWitt.com).
+Copyright 2019 by [Stijn de Witt](http://StijnDeWitt.com).
 
 
 ## License
