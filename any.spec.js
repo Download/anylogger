@@ -2,7 +2,7 @@ var expect = require('chai').expect
 var sinon = require('sinon')
 var anylogger = require('./any')
 
-var sandbox = sinon.sandbox.create()
+var sandbox = sinon.createSandbox();
 
 describe('anylogger([name, [options]]) => log', function() {
   beforeEach(function(){
