@@ -83,7 +83,7 @@ describe('anylogger([name, [options]]) => log', function() {
     expect(anylogger.create.callCount).to.equal(1)
   })
 
-  it('calls any.create when a new logger named "toString" is created', function(){
+  it('calls anylogger.create when a new logger named "toString" is created', function(){
     sandbox.spy(anylogger, 'new')
     expect(anylogger.new.callCount).to.equal(0)
     anylogger('toString')
@@ -120,37 +120,37 @@ describe('anylogger([name, [options]]) => log', function() {
     })
 
     it('has a method `trace`', function(){
-      var log = anylogger('test', {level:'debug'})
+      var log = anylogger('test')
       expect(log).to.have.property('trace')
       expect(log.trace).to.be.a('function')
     })
 
     it('has a method `debug`', function(){
-      var log = anylogger('test', {level:'debug'})
+      var log = anylogger('test')
       expect(log).to.have.property('debug')
       expect(log.debug).to.be.a('function')
     })
 
     it('has a method `log`', function(){
-      var log = anylogger('test', {level:'debug'})
+      var log = anylogger('test')
       expect(log).to.have.property('log')
       expect(log.log).to.be.a('function')
     })
 
     it('has a method `info`', function(){
-      var log = anylogger('test', {level:'debug'})
+      var log = anylogger('test')
       expect(log).to.have.property('info')
       expect(log.info).to.be.a('function')
     })
 
     it('has a method `warn`', function(){
-      var log = anylogger('test', {level:'debug'})
+      var log = anylogger('test')
       expect(log).to.have.property('warn')
       expect(log.warn).to.be.a('function')
     })
 
     it('has a method `error`', function(){
-      var log = anylogger('test', {level:'debug'})
+      var log = anylogger('test')
       expect(log).to.have.property('error')
       expect(log.error).to.be.a('function')
     })
@@ -158,13 +158,13 @@ describe('anylogger([name, [options]]) => log', function() {
     it('can be invoked to log a message', function(){
       var log = anylogger('test')
       log('message')
-      expect(console.debug && console.debug.callCount || console.log.callCount).to.equal(1)
+      expect(console.log.callCount).to.equal(1)
     })
 
     it('can be invoked with a level name as first argument to log a message at that level', function(){
       var log = anylogger('test')
       log('info', 'message')
-      expect(console.debug && console.debug.callCount || console.log.callCount).to.equal(0)
+      expect(console.log.callCount).to.equal(0)
       expect(console.info.callCount).to.equal(1)
     })
   })

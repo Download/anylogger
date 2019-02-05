@@ -1,9 +1,11 @@
 {
   "name": "anylogger",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Get a logger. Any logger.",
   "main": "any.js",
   "scripts": {
+    "build": "node build.js",
+    "prepublish": "npm run test && npm run build",
     "test": "mocha any.spec.js"
   },
   "author": "Stijn de Witt",
@@ -16,7 +18,8 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
-    "sinon": "^7.2.3"
+    "sinon": "^7.2.3",
+    "uglify-js": "^3.4.9"
   },
   "keywords": [
     "anylogger",
@@ -25,5 +28,5 @@
     "logger",
     "console",
     "1kB"
-  ]  
+  ]
 }
