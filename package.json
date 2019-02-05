@@ -1,15 +1,29 @@
 {
   "name": "anylogger",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Get a logger. Any logger.",
-  "main": "index.js",
+  "main": "any.js",
   "scripts": {
-    "test": "echo \"No test specified yet\" && exit 0"
+    "test": "mocha any.spec.js"
   },
   "author": "Stijn de Witt",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com:download/anylogger.git"
-  }
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "sinon": "^7.2.3"
+  },
+  "keywords": [
+    "anylogger",
+    "tiny",
+    "logging",
+    "logger",
+    "console",
+    "1kB"
+  ]  
 }
