@@ -31,31 +31,27 @@
   /**
    * The anylogger console, defaults to the native console, or undefined.
    * 
-   * This object is used to perform the actual logging. If it undefined, the log
-   * methods on the logger will all be noop methods. No (level) filtering is expected 
-   * to take place in the log methods on the anylogger console. It is expected that 
-   * any filtering will take place in the methods on the logger itself. 
+   * This object is used to perform the actual logging. If it is undefined, the 
+   * log methods on the logger will all be noop methods. 
    * 
    * The anylogger console may be overridden by a different object to intercept 
-   * individual logging calls. For example this property could be overridden with
-   * an alternative console object that applies formatting.
+   * individual logging calls. For example this property could be overridden 
+   * with an alternative console object that applies formatting.
    * 
-   * When a method is not available on the anylogger console, but `anylogger.con.log` 
-   * is defined, `anylogger.con.log` will be delegated to. So you can define a level 
-   * `silly` and it will create a method `silly()` which will delegate to 
-   * `anylogger.con.log` to do the actual logging.
+   * When a method is not available on the anylogger console, but 
+   * `anylogger.con.log` is defined, `anylogger.con.log` will be used. So you
+   * can define a level `silly` and it will create a method `silly()` which is
+   * an alias for `anylogger.con.log`.
    */
   a.con = (typeof console != 'undefined') && console
 
 
   /**
-   * The default anylogger factory.
-   * 
    * Returns the logger with the given name, or creates it by calling `anylogger.new`
-   * and decorating the created log function by calling `anylogger.ext` on the result.
+   * and extending the created log function by calling `anylogger.ext` on the result.
    * 
    * You can replace this method with a custom factory, or leave this one in place 
-   * and instead override a.ext and/or a.new separately.
+   * and instead override `anylogger.ext` and/or `anylogger.new` separately.
    */
   a.create = function(n,o) {
     return a.ext(a.new(n),n,o)
@@ -74,13 +70,13 @@
    * @return function log([level='log'], args...)
    */
   a.new = function(n,r) {
-    // use eval to create a named function, this method has best cross-browser support
-    // and allows us to create functions with names containing symbols such as ':', '-' etc
-    // which otherwise are not legal in identifiers
-    // the created function calls a.log to call the actual log method
+    // use eval to create a named function, this method has best cross-browser
+    // support and allows us to create functions with names containing symbols
+    // such as ':', '-' etc which otherwise are not legal in identifiers.
+    // the created function calls `anylogger.log` to call the actual log method
     eval("r = {'" + n + "': function(){a.log(n, [].slice.call(arguments))}}[n]")
     // if you want to do extra stuff inside the logger function, consider
-    // overriding a.invoke instead of this method.
+    // overriding `anylogger.log` instead of this method.
     // IE support: if the function name is not set, add a property manually
     return r.name ? r : Object.defineProperty(r, 'name', {get:function(){return n}})
     // the logging methods will be added by anylogger.ext
@@ -101,21 +97,20 @@
   }
 
   /**
-   * Called when a logger needs to be extended, either because it was newly created, 
-   * or because it's configuration or settings changed in some way. 
+   * Called when a logger needs to be extended, either because it was newly
+   * created, or because it's configuration or settings changed in some way.
    * 
    * `anylogger.ext(logger, name, options) => logger`
    * 
-   * This method must ensure that a log method is available on the logger for each method 
-   * with a value above `0` in `anylogger.levels`.
+   * This method must ensure that a log method is available on the logger for
+   * each level in `anylogger.levels`.
    * 
-   * When overriding `anylogger.ext`, please make sure the function may be called m
-   * ultiple times on the same object without ill side-effects.
+   * When overriding `anylogger.ext`, please make sure the function may be
+   * called multiple times on the same object without ill side-effects.
    */
   a.ext = function(l) {
-    for (v in a.levels){
+    for (v in a.levels)
       l[v] = a.con[v] || a.con.log || function(){}
-    }
     return l;
   }
 })()
