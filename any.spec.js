@@ -164,7 +164,7 @@ describe('anylogger([name, [options]]) => log', function() {
     it('can be invoked with a level name as first argument to log a message at that level', function(){
       var log = anylogger('test')
       log('info', 'message')
-      expect(console.debug.callCount).to.equal(0)
+      expect(console.debug && console.debug.callCount || console.log.callCount).to.equal(0)
       expect(console.info.callCount).to.equal(1)
     })
   })
