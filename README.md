@@ -1,4 +1,4 @@
-# anylogger <sub><sup>v0.4.0</sup></sub>
+# anylogger <sub><sup>v0.5.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -22,26 +22,51 @@ will let your library pick up on whatever choice he made and run with it.
 
 **A logging facade.**
 
-We, the Javascript community, really need a logging facade. The Java community created their own loggers because the JVM did not include a good logger initially. Eventually multiple popular logging frameworks were around, which made for tough decisions for library authors. Which one to choose? What if the app is using the other library? Make it configurable somehow? So they came up with SLF4J, a facade that you could code against and that allowed the app developer to pick whichever logger he liked and still have it integrate with the library nicely.
+We, the Javascript community, really need a logging facade. Initially, the 
+native `console` object was not always available and it's API varied from 
+implementation to implementation. The community responded by creating 
+logging frameworks to deal with the complexity. Now there are dozens of logging
+libraries around and we library authors face a dilemma. Which logger do we
+pick? Should we make this configurable? Should we just not log? Use the
+console directly? How do we deal with this complexity?
 
-We have the same issues here in the Javascript eco system. Initially, the native console object was not always available and it's API varied from implementation to implementation. The community responded by creating logging frameworks to deal with the complexity. Now there are dozens of logging libraries around and we library authors face the same dilemma as Java library authors did.
+In software architecture, a 
+[facade](https://en.wikipedia.org/wiki/Facade_pattern) hides a complex system
+behind a simple interface. In the context of our logging problem, we can have
+our library log to a simple facade object. In our application we back the 
+facade object by the actual logging framework with an 
+[adapter](https://en.wikipedia.org/wiki/Adapter_pattern). So what we need is 
+a simple and small logging facade and a bunch of adapters for popular loggers.
 
-Hence **`anylogger`**. A tiny 0.5kB logging facade that you can include in your library to have logging 'just work', while at the same time allowing application developers to plug in any logging framework they choose. Instead of building in your own library specific configuration mechanism, or forcing the choice for a certain logging framework on your users, or just abandoning logging altogether, choose `anylogger` and for just 0.5 kB shared between all libraries doing this, we can plug in any framework of our choice and all of them will automatically start to use that framework. Wouldn't it be much better and easier?
+**Introducing `anylogger`**
 
-At the application level, the app developer chooses their logging framework of choice and installs the anylogger-to-their-framework adapter. They make sure to require the adapter in the application entry point and from that point on, any library using anylogger will automatically start using the selected logging framework.
+A tiny 0.5kB logging facade that you can include in your library to have 
+logging 'just work', while at the same time allowing application developers 
+to plug in any logging framework they choose. Instead of building in your own 
+library specific configuration mechanism, or forcing the choice for a certain 
+logging framework on your users, or just abandoning logging altogether, choose 
+`anylogger` and for just 0.5 kB shared between all libraries doing this, we can
+plug in any framework of our choice and all of them will automatically start to
+use that framework. Wouldn't it be much better and easier?
+
+At the application level, the app developer chooses their logging framework 
+of choice and installs the anylogger-to-their-framework adapter. They make
+sure to require the adapter in the application entry point and from that point
+on, any library using anylogger will automatically start using the selected 
+logging framework.
 
 
 ## Download
 
-[any.js](https://unpkg.com/anylogger@0.4.0/any.js) (fully commented source ~5kB)
-[any.min.js](https://unpkg.com/anylogger@0.4.0/any.min.js) (minified and gzipped ~0.5 kB)
+* [any.js](https://unpkg.com/anylogger@0.5.0/any.js) (fully commented source ~5kB)
+* [any.min.js](https://unpkg.com/anylogger@0.5.0/any.min.js) (minified and gzipped ~0.5 kB)
 
 
 ## CDN
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.4.0/any.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.5.0/any.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -207,7 +232,7 @@ log.info('message')
 Because of this, the logger created by anylogger is compatible with most 
 logging frameworks out there, which mostly use one of these two approaches.
 
-The main API looks like this (in peseudo code):
+The main API looks like this (in pseudo code):
 
 ```js
 log: function(level='log', ...args)
@@ -297,7 +322,7 @@ through this method. Calls to the log methods, e.g. to `log.info`, are routed
 directly to the corresponding method on `any.con`. Hence `any.con` is a better
 extension point when you need to intercept *all* log invocation.
 
-Please have a look at the [source](https://unpkg.com/anylogger@0.4.0/any.js)
+Please have a look at the [source](https://unpkg.com/anylogger@0.5.0/any.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
