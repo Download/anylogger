@@ -1,4 +1,4 @@
-# anylogger <sub><sup>v0.3.1</sup></sub>
+# anylogger <sub><sup>v0.4.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -33,15 +33,15 @@ At the application level, the app developer chooses their logging framework of c
 
 ## Download
 
-[any.js](https://unpkg.com/anylogger@0.3.1/any.js) (fully commented source ~5kB)
-[any.min.js](https://unpkg.com/anylogger@0.3.1/any.min.js) (minified and gzipped ~0.5 kB)
+[any.js](https://unpkg.com/anylogger@0.4.0/any.js) (fully commented source ~5kB)
+[any.min.js](https://unpkg.com/anylogger@0.4.0/any.min.js) (minified and gzipped ~0.5 kB)
 
 
 ## CDN
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.3.1/any.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.4.0/any.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -297,7 +297,7 @@ through this method. Calls to the log methods, e.g. to `log.info`, are routed
 directly to the corresponding method on `any.con`. Hence `any.con` is a better
 extension point when you need to intercept *all* log invocation.
 
-Please have a look at the [source](https://unpkg.com/anylogger@0.3.1/any.js)
+Please have a look at the [source](https://unpkg.com/anylogger@0.4.0/any.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
