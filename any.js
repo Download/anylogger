@@ -1,3 +1,12 @@
+/**
+ *  A  N  Y  L  O  G  G  E  R
+ *  Get a logger. Any logger.
+ * 
+ *  © 2019 by Stijn de Witt, some rights reserved
+ *  Licensed under the MIT Open Source license
+ *  https://opensource.org/licenses/MIT
+ *  Removal of this message in production builds is permitted.
+ */
 (function(m,a){
   // stores log modules keyed by name
   m = Object.create(null)
@@ -5,71 +14,81 @@
   /**
    * anylogger([name] [, options]) => function logger([level='log'] [, ...args])
    * 
-   * The main anylogger function creates a new or returns an existing logger 
+   * The main `anylogger` function creates a new or returns an existing logger 
    * with the given `name`. It maintains a registry of all created loggers, 
    * which it returns when called without a name, or with an empty name.
    * 
    * If anylogger needs to create a new logger, it invokes `anylogger.create`.
    */
-  a = module.exports = function(n,o){
+  a = function(n,o){
     // return the existing logger, or create a new one. if no name was given, return all loggers
     return n ? m[n] || (m[n] = a.create(n,o)) : m
   }
 
   /**
-   * The supported log levels.
-   * 
+   * `anylogger.levels`
+   *
+   * An object containing a mapping of level names to level values.
    * In anylogger, a higher level of logging means more verbose logging: more log messages.
-   * 
-   * The lowest level of logging (none at all) has value `0`, whereas the highest
-   * level of logging is named `trace` and has value `60`. Default log levels
-   * are spaced out by 10 units each so to make room for additional log levels
-   * in between.
+   * The lowest level of logging (none at all) has value `0`. Higher levels have
+   * higher values. To be compliant with the anylogger API, loggers should support
+   * at least the default levels, but they may define additional levels.
    */
-  a.levels = {error:10, warn:20, info:30, log:40, debug:50, trace:60}
+  a.levels = {error:1, warn:2, info:3, log:4, debug:5, trace:6}
 
   /**
-   * The anylogger console, defaults to the native console, or undefined.
+   * `anylogger.out`
    * 
-   * This object is used to perform the actual logging. If it is undefined, the 
+   * Defaults to the native console or false if no native console is available.
+   * 
+   * This object is used to perform the actual logging. If it is false, the 
    * log methods on the logger will all be noop methods. 
-   * 
-   * The anylogger console may be overridden by a different object to intercept 
+   *  
+   * `anylogger.out` may be overridden by a different object to intercept 
    * individual logging calls. For example this property could be overridden 
-   * with an alternative console object that applies formatting.
+   * with an alternative object that applies formatting.
    * 
-   * When a method is not available on the anylogger console, but 
-   * `anylogger.con.log` is defined, `anylogger.con.log` will be used. So you
-   * can define a level `silly` and it will create a method `silly()` which is
-   * an alias for `anylogger.con.log`.
+   * When a method is not available on `anylogger.out`, but `anylogger.out.log`
+   * is defined, `anylogger.out.log` will be used. So you can define a level
+   * `silly` and it will create a method `silly()` which would just be an alias 
+   * for `anylogger.out.log`.
    */
-  a.con = (typeof console != 'undefined') && console
+  a.out = typeof console != 'undefined' && console
 
 
   /**
-   * Returns the logger with the given name, or creates it by calling `anylogger.new`
-   * and extending the created log function by calling `anylogger.ext` on the result.
-   * 
-   * You can replace this method with a custom factory, or leave this one in place 
-   * and instead override `anylogger.ext` and/or `anylogger.new` separately.
+   * `anylogger.create(name, options)`
+
+   * Called when a logger needs to be created.   *
+   * Creates a new logger by calling `anylogger.new`, then extends it by calling 
+   * `anylogger.ext` on the result.
+   *
+   * You can replace this method with a custom factory, or leave this one in
+   * place and instead override `anylogger.ext` and/or `anylogger.new` separately.
+   *
+   * @param name String, The name of the logger to create
+   * @param options Object, An optional options object
+   *
+   * @returns A new logger with the given `name` and `options`.
    */
   a.create = function(n,o) {
-    return a.ext(a.new(n),n,o)
+    return a.ext(a.new(n,o))
   }
 
   /** 
-   * Called when a logger needs to be created.
    * 
-   * `anylogger.new(name)`
+   * `anylogger.new(name, options)`
    * 
    * Creates and returns a new named function that calls `anylogger.log` to 
    * perform the log call to the correct logger method based on the first 
    * argument given to it.
    *
-   * @param n String The name of the logger to create
+   * @param name String The name of the logger to create
+   * @param options Object An optional options object
+   * 
    * @return function log([level='log'], args...)
    */
-  a.new = function(n,r) {
+  a.new = function(n,o,r) {
     // use eval to create a named function, this method has best cross-browser
     // support and allows us to create functions with names containing symbols
     // such as ':', '-' etc which otherwise are not legal in identifiers.
@@ -100,7 +119,7 @@
    * Called when a logger needs to be extended, either because it was newly
    * created, or because it's configuration or settings changed in some way.
    * 
-   * `anylogger.ext(logger, name, options) => logger`
+   * `anylogger.ext(logger) => logger`
    * 
    * This method must ensure that a log method is available on the logger for
    * each level in `anylogger.levels`.
@@ -110,7 +129,9 @@
    */
   a.ext = function(l) {
     for (v in a.levels)
-      l[v] = a.con[v] || a.con.log || function(){}
+      l[v] = a.out[v] || a.out.log || function(){}
     return l;
   }
+
+  module.exports = a
 })()
