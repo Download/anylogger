@@ -1,4 +1,4 @@
-# anylogger <sub><sup>v0.6.0</sup></sub>
+# anylogger <sub><sup>0.7.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
