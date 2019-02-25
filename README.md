@@ -19,22 +19,19 @@ framework the app using your library should use.
 Anylogger will let the user of your library pick the logger for his app, and 
 will let your library pick up on whatever choice he made and run with it.
 
-By choosing anylogger, you are explicitly not choosing any specific logging
-framework, but instead are limiting yourself to the 
-[Anylogger API](#anylogger-api), a small API that only captures the bare
-essentials for logging, but because of that, is compatible with nearly every
-logging library out there.
+> By choosing anylogger, you are explicitly not choosing any specific 
+> logging framework, but instead are limiting yourself to the 
+> [Anylogger API](#anylogger-api), a small API that only captures the 
+> bare essentials for logging, but because of that, is compatible with 
+> nearly every logging library out there.
 
 ## What is this?
 
 **A logging facade**
 
-We, the Javascript community, really need a logging facade. Initially, the 
-native `console` object was not always available and it's API varied from 
-implementation to implementation. The community responded by creating 
-logging frameworks to deal with the complexity. Now there are dozens of logging
-libraries around and we library authors face a dilemma. Which logger do we
-pick? Should we make this configurable? Should we just not log? Use the
+We, the Javascript community, really need a logging facade. There are dozens 
+of logging libraries around and we library authors face a dilemma. Which logger
+do we pick? Should we make this configurable? Should we just not log? Use the
 console directly? How do we deal with this complexity?
 
 In software architecture, a 
@@ -47,12 +44,12 @@ a simple and small logging facade and a bunch of adapters for popular loggers.
 
 **Introducing `anylogger`**
 
-A tiny 0.5kB logging facade that you can include in your library to have 
+A tiny [366](#gzip-size) bytes logging facade that you can include in your library to have 
 logging 'just work', while at the same time allowing application developers 
 to plug in any logging framework they choose. Instead of building in your own 
 library specific configuration mechanism, or forcing the choice for a certain 
 logging framework on your users, or just abandoning logging altogether, choose 
-`anylogger` and for just 0.5 kB shared between all libraries doing this, we can
+`anylogger` and for just [366](#gzip-size) bytes shared between all libraries doing this, we can
 plug in any framework of our choice and all libraries will automatically 
 start to use that framework. Wouldn't it be much better and easier?
 
@@ -65,15 +62,15 @@ logging framework.
 
 ## Download
 
-* [any.js](https://unpkg.com/anylogger@0.6.0/any.js) (fully commented source ~5kB)
-* [any.min.js](https://unpkg.com/anylogger@0.6.0/any.min.js) (minified and gzipped ~0.5 kB)
+* [any.js](https://unpkg.com/anylogger@0.7.0/any.js) (fully commented source ~5kB)
+* [any.min.js](https://unpkg.com/anylogger@0.7.0/any.min.js) (minified 601B, gzipped [366](#gzip-size)B)
 
 
 ## CDN
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.6.0/any.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.7.0/any.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -98,14 +95,14 @@ This will add `anylogger` as a dependency to your `package.json`:
 ```json
 {
   "dependencies": {
-    "anylogger": ">= 0.6.0 < 2"
+    "anylogger": ">= 0.7.0 < 2"
   }
 }
 ```
 
 I recommend to expand the version range here. By default NPM will set a 
-range looking like `"^0.6.0"`, which is equivalent to `"0.6.x"` or 
-`">= 0.6.0 < 0.7.0"`. This version range is probably too narrow. When 
+range looking like `"^0.7.0"`, which is equivalent to `"0.7.x"` or 
+`">= 0.7.0 < 0.7.0"`. This version range is probably too narrow. When 
 multiple libraries depend on the same library, if their version ranges overlap,
 NPM will be able to make them all use the same version. But if their version
 ranges do not overlap, NPM will bundle multiple versions of the same library.
@@ -119,13 +116,13 @@ upcoming versions including the next major, up to (but not including) the
 second next major. 
 
 So I recommend accepting everything up to the second next major release. 
-That means that currently while at version `0.6.0`, we should set the version
-range to everything equal to or above `0.6.0` and below `2.0.0`:
+That means that currently while at version `0.7.0`, we should set the version
+range to everything equal to or above `0.7.0` and below `2.0.0`:
 
 ```json
 {
   "dependencies": {
-    "anylogger": ">= 0.6.0 < 2.0.0"
+    "anylogger": ">= 0.7.0 < 2.0.0"
   }
 }
 ```
@@ -413,7 +410,7 @@ through this method. Calls to the log methods, e.g. to `log.info`, are routed
 directly to the corresponding method on `any.out`. Hence `any.out` is a better
 extension point when you need to intercept *all* log invocation.
 
-Please have a look at the [source](https://unpkg.com/anylogger@0.6.0/any.js)
+Please have a look at the [source](https://unpkg.com/anylogger@0.7.0/any.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
@@ -439,3 +436,9 @@ Copyright 2019 by [Stijn de Witt](http://StijnDeWitt.com). Some rights reserved.
 ## License
 
 Licensed under the [MIT Open Source license](https://opensource.org/licenses/MIT).
+
+## gzip-size
+The GZIP algorithm is available in different flavours and with different 
+possible compression settings. The sizes quoted in this README have been
+measured using [gzip-size](https://npmjs.com/package/gzip-size) 
+by [Sindre Sorhus](https://github.com/sindresorhus), your mileage may vary.

@@ -12,7 +12,7 @@
   m = Object.create(null)
 
   /**
-   * anylogger([name] [, options]) => function logger([level='log'] [, ...args])
+   * anylogger([name] [, config]) => function logger([level='log'] [, ...args])
    * 
    * The main `anylogger` function creates a new or returns an existing logger 
    * with the given `name`. It maintains a registry of all created loggers, 
@@ -20,9 +20,9 @@
    * 
    * If anylogger needs to create a new logger, it invokes `anylogger.create`.
    */
-  a = function(n,o){
+  a = function(n,c){
     // return the existing logger, or create a new one. if no name was given, return all loggers
-    return n ? m[n] || (m[n] = a.create(n,o)) : m
+    return n ? m[n] || (m[n] = a.create(n,c)) : m
   }
 
   /**
@@ -57,7 +57,7 @@
 
 
   /**
-   * `anylogger.create(name, options)`
+   * `anylogger.create(name, config)`
 
    * Called when a logger needs to be created.   *
    * Creates a new logger by calling `anylogger.new`, then extends it by calling 
@@ -67,42 +67,41 @@
    * place and instead override `anylogger.ext` and/or `anylogger.new` separately.
    *
    * @param name String, The name of the logger to create
-   * @param options Object, An optional options object
+   * @param config Object, An optional config object
    *
-   * @returns A new logger with the given `name` and `options`.
+   * @returns A new logger with the given `name` and `config`.
    */
-  a.create = function(n,o) {
-    return a.ext(a.new(n,o))
+  a.create = function(n,c) {
+    return a.ext(a.new(n,c,a.log),a.out)
   }
 
   /** 
    * 
-   * `anylogger.new(name, options)`
+   * `anylogger.new(name, config, log) => logger`
    * 
-   * Creates and returns a new named function that calls `anylogger.log` to 
-   * perform the log call to the correct logger method based on the first 
-   * argument given to it.
+   * Creates and returns a new named function that calls `log` to perform 
+   * the log call to the correct logger method based on the first argument 
+   * given to it.
    *
    * @param name String The name of the logger to create
-   * @param options Object An optional options object
+   * @param config Object An optional config object
+   * @param log Function The log function that will be called
    * 
-   * @return function log([level='log'], args...)
+   * @return logger function log([level='log'], args...)
    */
-  a.new = function(n,o,r) {
+  a.new = function(n,c,l,r) {
     // use eval to create a named function, this method has best cross-browser
     // support and allows us to create functions with names containing symbols
     // such as ':', '-' etc which otherwise are not legal in identifiers.
     // the created function calls `anylogger.log` to call the actual log method
-    eval("r = {'" + n + "': function(){a.log(n, [].slice.call(arguments))}}[n]")
-    // if you want to do extra stuff inside the logger function, consider
-    // overriding `anylogger.log` instead of this method.
+    eval("r={'" + n + "':function(){l(n,[].slice.call(arguments))}}[n]")
     // IE support: if the function name is not set, add a property manually
     return r.name ? r : Object.defineProperty(r, 'name', {get:function(){return n}})
     // the logging methods will be added by anylogger.ext
   }
 
   /**
-   * Called from the logger function created by `anylogger.new`.
+   * Default log function given to `anylogger.new`.
    * 
    * `anylogger.log([level='log',] ...args)`
    * 
@@ -119,17 +118,22 @@
    * Called when a logger needs to be extended, either because it was newly
    * created, or because it's configuration or settings changed in some way.
    * 
-   * `anylogger.ext(logger) => logger`
+   * `anylogger.ext(logger, out) => logger`
    * 
    * This method must ensure that a log method is available on the logger for
    * each level in `anylogger.levels`.
    * 
    * When overriding `anylogger.ext`, please make sure the function may be
    * called multiple times on the same object without ill side-effects.
+   * 
+   * @param logger Function The logger to be (re-)extended
+   * @param out The output to log to (by default, the console)
+   * 
+   * @return The logger that was given, extended
    */
-  a.ext = function(l) {
+  a.ext = function(l,o) {
     for (v in a.levels)
-      l[v] = a.out[v] || a.out.log || function(){}
+      l[v] = o[v] || o.log || function(){}
     return l;
   }
 
