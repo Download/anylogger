@@ -1,6 +1,6 @@
 var expect = require('chai').expect
 var sinon = require('sinon')
-var anylogger = require('./any')
+var anylogger = require('./anylogger')
 
 var sandbox = sinon.createSandbox();
 

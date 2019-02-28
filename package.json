@@ -1,16 +1,17 @@
 {
   "name": "anylogger",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Get a logger. Any logger.",
-  "main": "any.js",
+  "main": "anylogger.js",
   "files": [
-    "any.js",
-    "any.min.js"
+    "anylogger.js",
+    "anylogger.min.js",
+    "anylogger.spec.js"
   ],
   "scripts": {
     "build": "node build.js",
     "prepare": "npm run test && npm run build",
-    "test": "mocha any.spec.js"
+    "test": "mocha anylogger.spec.js"
   },
   "author": "Stijn de Witt",
   "license": "MIT",
@@ -28,10 +29,12 @@
   },
   "keywords": [
     "anylogger",
+    "microscopically small",
     "tiny",
     "logging",
     "logger",
     "console",
-    "1kB"
+    "1kB",
+    "logging facade"
   ]
 }
