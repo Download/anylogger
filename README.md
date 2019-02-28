@@ -25,9 +25,7 @@ will let your library pick up on whatever choice he made and run with it.
 > bare essentials for logging, but because of that, is compatible with 
 > nearly every logging library out there.
 
-## What is this?
-
-**A logging facade**
+## A logging facade
 
 We, the Javascript community, really need a logging facade. There are dozens 
 of logging libraries around and we library authors face a dilemma. Which logger
@@ -44,7 +42,7 @@ facade object by the actual logging framework with an
 So what we need is a simple and small logging facade and a bunch of adapters 
 for popular loggers.
 
-**Introducing `anylogger`**
+## Introducing `anylogger`
 
 A tiny ~[360](#gzip-size) bytes logging facade that you can include in your
 library to have logging 'just work', while at the same time allowing
@@ -171,10 +169,16 @@ so it extends anylogger:
 *main.js*
 ```js
 // for debug
-require('anylogger-debug') // the adapter in turn requires debug
+var debug = require('debug')
+require('anylogger-debug')
+// libraries now use debug
+debug.enable('my-library')
 
 // or, for ulog
-require('ulog') // native support! no adapter needed :)
+var ulog = require('ulog') 
+// native support! no adapter needed :)
+// libraries now use ulog
+ulog.enable('my-library')
 
 // etc, see the specific library or adapter for details on anylogger support
 ```
@@ -183,10 +187,16 @@ require('ulog') // native support! no adapter needed :)
 *main.js*
 ```js
 // for debug
-import 'anylogger-debug' // the adapter in turn imports debug
+import debug from 'debug' 
+import 'anylogger-debug'
+// libraries now use debug
+debug.enable('my-library') // enable debug mode
 
 // or, for ulog
-import 'ulog' // native support! no adapter needed :)
+import ulog from 'ulog' 
+// native support! no adapter needed :)
+// libraries now use ulog
+ulog.enable('my-library') // enable debug mode
 ```
 
 In your other modules, use only anylogger and restrict yourself to the 
@@ -216,8 +226,7 @@ var log = require('anylogger')('my-module');
 log('A debug message');
 log('warn', 'A warning message');
 log.info(log.name + ' starting...');
-var error = new Error('Oh no!');
-log.error('Something went wrong', error);
+log.error('Something went wrong', new Error('Oh no!'));
 ```
 
 If you are able to restrict yourself to the [Anylogger API](#anylogger-api), 
@@ -246,8 +255,7 @@ The main function to call to get a logger.
 Accepts two arguments.
 
 #### name
-String. Optional. Defaults to `undefined`.
-The name of the logger. 
+The name of the logger. String. Optional. Defaults to `undefined`.
 The recommended format is `<package-name>[:<sub>[:<sub> [..]]]`,
 as this is the [convention](https://www.npmjs.com/package/debug#conventions)
 used by the highly popular `debug` module. But you are free to pick any name
@@ -256,20 +264,18 @@ not given `anylogger()` will return an object containing all loggers,
 keyed by name.
 
 #### config
-Object. Optional. Defaults to `undefined`.
-A config object. The use of such config objects varies wildly amongst 
-implementations so it is recommended to avoid using it where possible. 
-However in case of implementations that require it, anylogger passes 
-any config object it is given on to [`anylogger.create`](#anyloggercreate)
-and [`anylogger.new`](#anyloggernew) to allow it to be used where needed. 
+An optional config object. Object. Optional. Defaults to `undefined`.
+The use of such config objects varies wildly amongst implementations so
+it is recommended to avoid using it where possible. However in case of
+implementations that require it, anylogger passes any config object it 
+is given on to [`anylogger.create`](#anyloggercreate) and 
+[`anylogger.new`](#anyloggernew) to allow it to be used where needed.
 
-**When no arguments are given**
-anylogger returns an object containing all loggers created so far, 
-keyed by name.
+**When no arguments are given** anylogger returns an object containing
+all loggers created so far, keyed by name.
 
-**When a name is given**
-anylogger returns the existing logger with that name, or creates a 
-new one by calling [`anylogger.create`](#anyloggercreate).
+**When a name is given** anylogger returns the existing logger with that
+name, or creates a new one by calling [`anylogger.create`](#anyloggercreate).
 
 The returned logger adheres to the Logging API described below.
 
@@ -320,8 +326,6 @@ Is your logging framework not supported? No fear, just...
 
 To write an anylogger adapter, you need to make a project that includes both
 anylogger and the logging framework the adapter is for as peer dependencies. 
-Again, make sure to choose a wide version range; 2 major versions is 
-recommended. 
 
 You then need to modify one or more of the 
 [anylogger extension points](#anylogger-extension-points)
@@ -329,8 +333,9 @@ so the created loggers will be compliant with both the anylogger
 [Logging API](#logging-api) as well as with the logging framework's own API.
 
 It is recommended you call your library `anylogger-[adapter]`, where 
-`[adapter]` should be replaced with the name of the logging framework the
-adapter is for. For example, the adapter for `ulog` is called `anylogger-ulog`.
+`[adapter]` should be replaced with the name of the logging framework
+the adapter is for. For example, the adapter for `debug` is called 
+`anylogger-debug`.
 
 In addition, it is recommended you add the keyword `"anylogger"` to the 
 *package.json* file of your adapter project, so it will show up in the list of
@@ -347,6 +352,13 @@ points are:
 anylogger.levels = {error:1, warn:2, info:3, log:4, debug:5, trace:6}
 ```
 An object containing a mapping of level names to level values.
+
+In anylogger, a higher level of logging means more verbose logging: more
+log messages will be generated. The lowest level of logging (none at all)
+has value `0`. Higher levels have higher values. To be compliant with the
+anylogger API, loggers should support at least the default levels, but
+they may define additional levels and they may choose to use different
+numeric values for these levels.
 
 You can replace or change this object to include levels corresponding with 
 those available in the framework you are writing an adapter for. Please 
@@ -374,7 +386,7 @@ An optional config object. Object. Optional.
 ```js
 anylogger.new(name, config) => logger
 ```
-A method that is called to create the logger function. 
+A method that is called to create the logger function.
 
 ##### name
 The name of the new logger. String. Required.
@@ -402,7 +414,7 @@ anylogger.new = (name, config) => {
 ```
 
 If you need to re-apply customizations any time relevant config changes (such
-as active log level changing), override [`anylogger.ext`](#anyloggerext).
+as active log level changing), override `anylogger.ext`.
 
 #### anylogger.ext
 ```js

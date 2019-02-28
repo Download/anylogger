@@ -34,10 +34,19 @@
    * `anylogger.levels`
    *
    * An object containing a mapping of level names to level values.
-   * In anylogger, a higher level of logging means more verbose logging: more log messages.
-   * The lowest level of logging (none at all) has value `0`. Higher levels have
-   * higher values. To be compliant with the anylogger API, loggers should support
-   * at least the default levels, but they may define additional levels.
+   * 
+   * In anylogger, a higher level of logging means more verbose logging: more
+   * log messages will be generated. The lowest level of logging (none at all)
+   * has value `0`. Higher levels have higher values. To be compliant with the
+   * anylogger API, loggers should support at least the default levels, but 
+   * they may define additional levels and they may choose to use different 
+   * numeric values for these levels.
+   * 
+   * You can replace or change this object to include levels corresponding with
+   * those available in the framework you are writing an adapter for. Please
+   * make sure to always include the default levels as well so all code can
+   * rely on the 6 console methods `error`, `warn`, `info`, `log`, `debug` and
+   * `trace` to always be there.
    */
   a.levels = {error:1, warn:2, info:3, log:4, debug:5, trace:6}
 
