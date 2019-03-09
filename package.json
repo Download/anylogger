@@ -1,6 +1,6 @@
 {
   "name": "anylogger",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "Get a logger. Any logger.",
   "main": "anylogger.js",
   "files": [
@@ -10,8 +10,8 @@
   ],
   "scripts": {
     "build": "node build.js",
-    "prepare": "npm run test && npm run build",
-    "test": "mocha anylogger.spec.js"
+    "test": "mocha anylogger.spec.js",
+    "prepare": "npm run test && npm run build"
   },
   "author": "Stijn de Witt",
   "license": "MIT",

@@ -7,12 +7,14 @@ var sandbox = sinon.createSandbox();
 describe('anylogger([name, [options]]) => log', function() {
   beforeEach(function(){
     // spy on the console methods
-    if (console.trace) sandbox.spy(console, 'trace')
-    if (console.debug) sandbox.spy(console, 'debug')
-    if (console.trace) sandbox.spy(console, 'log')
-    if (console.trace) sandbox.spy(console, 'info')
-    if (console.trace) sandbox.spy(console, 'warn')
-    if (console.trace) sandbox.spy(console, 'error')
+    /*
+    console.trace && sandbox.spy(console, 'trace')
+    console.debug && sandbox.spy(console, 'debug')
+    console.log   && sandbox.spy(console, 'log')
+    console.info  && sandbox.spy(console, 'info')
+    console.warn  && sandbox.spy(console, 'warn')
+    console.error && sandbox.spy(console, 'error')
+    */
   })
 
   afterEach(function(){
@@ -157,15 +159,18 @@ describe('anylogger([name, [options]]) => log', function() {
 
     it('can be invoked to log a message', function(){
       var log = anylogger('test')
+      sandbox.spy(log, 'log')
       log('message')
-      expect(console.log.callCount).to.equal(1)
+      expect(log.log.callCount).to.equal(1)
     })
 
     it('can be invoked with a level name as first argument to log a message at that level', function(){
       var log = anylogger('test')
+      sandbox.spy(log, 'log')
+      sandbox.spy(log, 'info')
       log('info', 'message')
-      expect(console.log.callCount).to.equal(0)
-      expect(console.info.callCount).to.equal(1)
+      expect(log.log.callCount).to.equal(0)
+      expect(log.info.callCount).to.equal(1)
     })
   })
 })
