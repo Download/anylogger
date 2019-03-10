@@ -151,14 +151,14 @@ In your libraries, only use anylogger and restrict yourself to the
 ### require
 *my-library.js*
 ```js
-var log = require('anylogger)('my-library');
+var log = require('anylogger')('my-library')
 ```
 
 ### import
 *my-library.js*
 ```js
-import anylogger from 'anylogger';
-const log = anylogger('my-library');
+import anylogger from 'anylogger'
+const log = anylogger('my-library')
 ```
 
 
@@ -207,14 +207,14 @@ In your other modules, use only anylogger and restrict yourself to the
 ### require
 *my-module.js*
 ```js
-var log = require('anylogger)('my-module');
+var log = require('anylogger')('my-module')
 ```
 
 ### import
 *my-module.js*
 ```js
-import anylogger from 'anylogger';
-const log = anylogger('my-module');
+import anylogger from 'anylogger'
+const log = anylogger('my-module')
 ```
 
 
@@ -223,12 +223,12 @@ const log = anylogger('my-module');
 Anylogger is very natural to use:
 
 ```js
-var log = require('anylogger')('my-module');
+var log = require('anylogger')('my-module')
 
-log('A debug message');
-log('warn', 'A warning message');
-log.info(log.name + ' starting...');
-log.error('Something went wrong', new Error('Oh no!'));
+log('A debug message')
+log('warn', 'A warning message')
+log.info(log.name + ' starting...')
+log.error('Something went wrong', new Error('Oh no!'))
 ```
 
 If you are able to restrict yourself to the [Anylogger API](#anylogger-api), 
