@@ -1,6 +1,6 @@
 {
   "name": "anylogger",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "description": "Get a logger. Any logger.",
   "main": "anylogger.js",
   "files": [
@@ -22,13 +22,16 @@
   "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
-    "gzip-size": "^5.0.0",
-    "mocha": "^5.2.0",
-    "sinon": "^7.2.3",
-    "uglify-js": "^3.4.9"
+    "gzip-size": "^5.1.1",
+    "mocha": "^6.1.4",
+    "sinon": "^7.3.2",
+    "uglify-js": "^3.6.0"
   },
   "keywords": [
     "anylogger",
+    "anylogger-debug",
+    "anylogger-loglevel",
+    "anylogger-tutorial",
     "microscopically small",
     "tiny",
     "logging",
