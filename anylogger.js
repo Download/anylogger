@@ -94,14 +94,18 @@
   }
 
   /**
-   * `anylogger.log([level='log',] ...args)`
+   * `anylogger.log(name, args)`
    * 
-   * Default log function used by `anylogger.new`.
+   * The log function used by `anylogger.new`.
    * 
    * You can override this method to change invocation behavior.
-   * This method inspects the first argument to determine the log level to
-   * log at (defaults to 'log') and then calls the correct method on the 
-   * logger function with the remaining arguments. 
+   * 
+   * @param name {String} The name of the logger to use
+   * @param args {Array} The log arguments
+   * 
+   * This method inspects the first argument in `args` to determine the log 
+   * level to log at (defaults to 'log') and then calls the correct method 
+   * on the logger function with the remaining arguments. 
    */
   a.log = function(n,x) {
     m[n][x.length > 1 && a.levels[x[0]] ? x.shift() : 'log'].apply(m[n], x)
