@@ -1,4 +1,4 @@
-# anylogger <sub><sup>0.13.0</sup></sub>
+# anylogger <sub><sup>0.14.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -64,9 +64,9 @@ logging framework.
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@0.13.0/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@0.14.0/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@0.13.0/anylogger.min.js) 
+* [anylogger.min.js](https://unpkg.com/anylogger@0.14.0/anylogger.min.js) 
   (minified 546 bytes, gzipped ~[346](#gzip-size) bytes)
 
 
@@ -74,7 +74,7 @@ logging framework.
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.13.0/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.14.0/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -102,7 +102,7 @@ as the application itself, add anylogger as a peer dependency:
 ```json
 {
   "peerDependencies": {
-    "anylogger": "^0.13.0"
+    "anylogger": "^0.14.0"
   }
 }
 ```
@@ -435,7 +435,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@0.13.0/anylogger.js)
+[source](https://unpkg.com/anylogger@0.14.0/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
