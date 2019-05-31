@@ -7,7 +7,8 @@ var log = require('./anylogger')('anylogger')
 var pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
 var v = pkg.version
 var data = fs.readFileSync('./anylogger.js', 'utf8')
-data = data.replace('module.exports', 'window.anylogger')
+data = data.replace('module.exports', 'this.anylogger')
+data = `(function(){${data}})()`
 data = UglifyJS.minify(data).code
 fs.writeFileSync('anylogger.min.js', data, 'utf8')
 var min = data.length, gzip = gzipSize.sync(data)

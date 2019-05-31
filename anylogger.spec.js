@@ -55,14 +55,7 @@ describe('anylogger([name, [options]]) => log', function() {
     expect(actual).to.equal(expected)
   })
 
-  it('calls anylogger.create when a new logger named "test" is created', function(){
-    sandbox.spy(anylogger, 'create')
-    expect(anylogger.create.callCount).to.equal(0)
-    anylogger('test')
-    expect(anylogger.create.callCount).to.equal(1)
-  })
-
-  it('Calls anylogger.new when a new logger named "test" is created', function(){
+  it('calls anylogger.new when a new logger named "test" is created', function(){
     sandbox.spy(anylogger, 'new')
     expect(anylogger.new.callCount).to.equal(0)
     anylogger('test')
@@ -76,29 +69,29 @@ describe('anylogger([name, [options]]) => log', function() {
     expect(anylogger.ext.callCount).to.equal(1)
   })
 
-  it('does not call anylogger.create on subsequent calls with the same name', function(){
-    sandbox.spy(anylogger, 'create')
-    expect(anylogger.create.callCount).to.equal(0)
+  it('does not call anylogger.new on subsequent calls with the same name', function(){
+    sandbox.spy(anylogger, 'new')
+    expect(anylogger.new.callCount).to.equal(0)
     anylogger('test')
-    expect(anylogger.create.callCount).to.equal(1)
+    expect(anylogger.new.callCount).to.equal(1)
     anylogger('test')
-    expect(anylogger.create.callCount).to.equal(1)
+    expect(anylogger.new.callCount).to.equal(1)
   })
 
-  it('calls anylogger.create when a new logger named "toString" is created', function(){
+  it('calls anylogger.new when a new logger named "toString" is created', function(){
     sandbox.spy(anylogger, 'new')
     expect(anylogger.new.callCount).to.equal(0)
     anylogger('toString')
     expect(anylogger.new.callCount).to.equal(1)
   })
 
-  it('does not call anylogger.create on subsequent calls with "toString" as argument', function(){
-    sandbox.spy(anylogger, 'create')
-    expect(anylogger.create.callCount).to.equal(0)
+  it('does not call anylogger.new on subsequent calls with "toString" as argument', function(){
+    sandbox.spy(anylogger, 'new')
+    expect(anylogger.new.callCount).to.equal(0)
     anylogger('toString')
-    expect(anylogger.create.callCount).to.equal(1)
+    expect(anylogger.new.callCount).to.equal(1)
     anylogger('toString')
-    expect(anylogger.create.callCount).to.equal(1)
+    expect(anylogger.new.callCount).to.equal(1)
   })
 
   it('accepts an optional options argument', function(){
