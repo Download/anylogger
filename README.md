@@ -1,4 +1,4 @@
-# anylogger <sub><sup>0.14.0</sup></sub>
+# anylogger <sub><sup>0.15.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -64,9 +64,9 @@ logging framework.
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@0.14.0/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@0.15.0/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@0.14.0/anylogger.min.js) 
+* [anylogger.min.js](https://unpkg.com/anylogger@0.15.0/anylogger.min.js) 
   (minified 546 bytes, gzipped ~[346](#gzip-size) bytes)
 
 
@@ -74,7 +74,7 @@ logging framework.
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.14.0/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.15.0/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -102,7 +102,7 @@ as the application itself, add anylogger as a peer dependency:
 ```json
 {
   "peerDependencies": {
-    "anylogger": "^0.14.0"
+    "anylogger": "^0.15.0"
   }
 }
 ```
@@ -355,12 +355,10 @@ anylogger.levels = {error:1, warn:2, info:3, log:4, debug:5, trace:6}
 ```
 An object containing a mapping of level names to level values.
 
-In anylogger, a higher level of logging means more verbose logging: more
-log messages will be generated. The lowest level of logging (none at all)
-has value `0`. Higher levels have higher values. To be compliant with the
-anylogger API, loggers should support at least the default levels, but
-they may define additional levels and they may choose to use different
-numeric values for these levels.
+To be compliant with the anylogger API, loggers should support at least 
+the default levels through the like named log functions, but they may 
+define additional levels and they may choose to use different numeric values 
+for all the levels.
 
 You can replace or change this object to include levels corresponding with 
 those available in the framework you are writing an adapter for. Please 
@@ -435,7 +433,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@0.14.0/anylogger.js)
+[source](https://unpkg.com/anylogger@0.15.0/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.

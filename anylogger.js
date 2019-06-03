@@ -35,12 +35,10 @@ var a = function(n,c){
  *
  * An object containing a mapping of level names to level values.
  * 
- * In anylogger, a higher level of logging means more verbose logging: more
- * log messages will be generated. The lowest level of logging (none at all)
- * has value `0`. Higher levels have higher values. To be compliant with the
- * anylogger API, loggers should support at least the default levels, but 
- * they may define additional levels and they may choose to use different 
- * numeric values for these levels.
+ * To be compliant with the anylogger API, loggers should support at least 
+ * the default levels through the like named log functions, but they may 
+ * define additional levels and they may choose to use different numeric values 
+ * for all the levels.
  * 
  * You can replace or change this object to include levels corresponding with
  * those available in the framework you are writing an adapter for. Please
