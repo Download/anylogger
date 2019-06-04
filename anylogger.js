@@ -36,9 +36,19 @@ var a = function(n,c){
  * An object containing a mapping of level names to level values.
  * 
  * To be compliant with the anylogger API, loggers should support at least 
- * the default levels through the like named log functions, but they may 
- * define additional levels and they may choose to use different numeric values 
+ * the log methods corresponding to the default levels, but they may define 
+ * additional levels and they may choose to use different numeric values 
  * for all the levels.
+ * 
+ * The guarantees the Anylogger API makes are:
+ * - there is a logging method corresponding to each level listed in anylogger.levels
+ * - the levels error, warn, info, log, debug and trace are always there
+ * - each level corresponds to a numeric value
+ * 
+ * Note that the Anylogger API explicitly does not guarantee that all levels 
+ * have distinct values or that the numeric values will follow any pattern
+ * or have any specific order. For this reason it is best to think of levels
+ * as separate log channels, possibly going to different output locations.
  * 
  * You can replace or change this object to include levels corresponding with
  * those available in the framework you are writing an adapter for. Please
@@ -51,13 +61,16 @@ a.levels = {error:1, warn:2, info:3, log:4, debug:5, trace:6}
 /**
  * `anylogger.new(name, config)`
  *
- * Called when a logger needs to be created.
- * Creates a new logger, then extends it by calling `anylogger.ext` on the result.
+ * Creates a new logger function that calls `anylogger.log` when invoked.
+ * 
+ * Uses some evil eval trickery to create a named function so that function.name
+ * corresponds to the module name given. Polyfills function.name on platforms
+ * where it is not natively available.
  *
  * @param name {String} The name of the logger to create
  * @param config {Object} An optional config object
  *
- * @returns A new logger with the given `name` and `config`.
+ * @returns A new logger function with the given `name`.
  */
 a.new = function(n,c,r) {
   // use eval to create a named function, this method has best cross-browser
@@ -89,10 +102,10 @@ a.log = function(n,x) {
 }
 
 /**
+ * `anylogger.ext(logger) => logger`
+ * 
  * Called when a logger needs to be extended, either because it was newly
  * created, or because it's configuration or settings changed in some way.
- * 
- * `anylogger.ext(logger) => logger`
  * 
  * This method must ensure that a log method is available on the logger for
  * each level in `anylogger.levels`.

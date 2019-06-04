@@ -1,4 +1,4 @@
-# anylogger <sub><sup>0.16.0</sup></sub>
+# anylogger <sub><sup>0.17.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -64,9 +64,9 @@ logging framework.
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@0.16.0/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@0.17.0/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@0.16.0/anylogger.min.js) 
+* [anylogger.min.js](https://unpkg.com/anylogger@0.17.0/anylogger.min.js) 
   (minified 546 bytes, gzipped ~[350](#gzip-size) bytes)
 
 
@@ -74,7 +74,7 @@ logging framework.
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.16.0/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.17.0/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -102,7 +102,7 @@ as the application itself, add anylogger as a peer dependency:
 ```json
 {
   "peerDependencies": {
-    "anylogger": "^0.16.0"
+    "anylogger": "^0.17.0"
   }
 }
 ```
@@ -356,9 +356,19 @@ anylogger.levels = {error:1, warn:2, info:3, log:4, debug:5, trace:6}
 An object containing a mapping of level names to level values.
 
 To be compliant with the anylogger API, loggers should support at least 
-the default levels through the like named log functions, but they may 
-define additional levels and they may choose to use different numeric values 
+the log methods corresponding to the default levels, but they may define 
+additional levels and they may choose to use different numeric values 
 for all the levels.
+
+The guarantees the Anylogger API makes are:
+* there is a logging method corresponding to each level listed in `anylogger.levels`
+* the levels `error`, `warn`, `info`, `log`, `debug` and `trace` are always there
+* each level corresponds to a numeric value
+
+Note that the Anylogger API explicitly does not guarantee that all levels 
+have distinct values or that the numeric values will follow any pattern
+or have any specific order. For this reason it is best to think of levels
+as separate log channels, possibly going to different output locations.
 
 You can replace or change this object to include levels corresponding with 
 those available in the framework you are writing an adapter for. Please 
@@ -370,8 +380,11 @@ rely on the 6 console methods `error`, `warn`, `info`, `log`, `debug` and
 ```js
 anylogger.new(name, config) => logger
 ```
-A method that is called to create the logger function.
-Calls `anylogger.ext` on the created log function before returning it.
+Creates a new logger function that calls `anylogger.log` when invoked.
+ 
+Uses some evil eval trickery to create a named function so that function.name
+corresponds to the module name given. Polyfills function.name on platforms
+where it is not natively available.
 
 ##### name
 The name of the new logger. String. Required.
@@ -379,7 +392,8 @@ The name of the new logger. String. Required.
 ##### config
 An optional config object. Object. Optional.
 
-You can chain this method and include any one-time customizations here:
+Instead of completely trying to replace the original method, I recommend you 
+chain it to include your one-time customizations like this:
 
 ```js
 import anylogger from 'anylogger'
@@ -405,8 +419,15 @@ as active log level changing), override `anylogger.ext`.
 ```js
 anylogger.ext(logger) => logger
 ```
-A method that is called to extend the logger function. May be called multiple
-times on the same logger function.
+
+Called when a logger needs to be extended, either because it was newly
+created, or because it's configuration or settings changed in some way.
+
+This method must ensure that a log method is available on the logger for
+each level in `anylogger.levels`.
+
+When overriding `anylogger.ext`, please ensure the function can safely 
+be called multiple times on the same object
 
 ##### logger
 The logger that should be (re-)extended. Function. Required.
@@ -433,7 +454,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@0.16.0/anylogger.js)
+[source](https://unpkg.com/anylogger@0.17.0/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
