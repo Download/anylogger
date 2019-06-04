@@ -27,7 +27,7 @@ var m = Object.create(null)
  */
 var a = function(n,c){
   // return the existing logger, or create a new one. if no name was given, return all loggers
-  return n ? m[n] || (m[n] = a.new(n,c)) : m
+  return n ? m[n] || (m[n] = a.ext(a.new(n,c))) : m
 }
 
 /**
@@ -67,7 +67,7 @@ a.new = function(n,c,r) {
   eval("r={'" + n + "':function(){a.log(n,[].slice.call(arguments))}}[n]")
   // IE support: if the function name is not set, add a property manually
   // the logging methods will be added by anylogger.ext
-  return a.ext(r.name ? r : Object.defineProperty(r, 'name', {get:function(){return n}}))
+  return r.name ? r : Object.defineProperty(r, 'name', {get:function(){return n}})
 }
 
 /**
