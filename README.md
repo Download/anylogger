@@ -1,4 +1,4 @@
-# anylogger <sub><sup>0.17.0</sup></sub>
+# anylogger <sub><sup>0.18.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/Download/anylogger.svg)](https://greenkeeper.io/)
@@ -66,9 +66,9 @@ logging framework.
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@0.17.0/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@0.18.0/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@0.17.0/anylogger.min.js) 
+* [anylogger.min.js](https://unpkg.com/anylogger@0.18.0/anylogger.min.js) 
   (minified 546 bytes, gzipped ~[350](#gzip-size) bytes)
 
 
@@ -76,7 +76,7 @@ logging framework.
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.17.0/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.18.0/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -104,7 +104,7 @@ as the application itself, add anylogger as a peer dependency:
 ```json
 {
   "peerDependencies": {
-    "anylogger": "^0.17.0"
+    "anylogger": "^0.18.0"
   }
 }
 ```
@@ -456,7 +456,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@0.17.0/anylogger.js)
+[source](https://unpkg.com/anylogger@0.18.0/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
@@ -466,6 +466,13 @@ and learn by example.
 
 If you wrote an `anylogger` adapter, make sure to share it back with the 
 community. Publish it to NPM for all to use!
+
+
+## Credits
+
+Credits go to these people, who helped with this project:
+
+* [Jakub Jirutka](https://github.com/jirutka) who [contributed](https://github.com/Download/anylogger/pull/2) TypeScript type declarations.
 
 
 ## Issues
@@ -478,6 +485,7 @@ to let me know of any problems you find, or questions you may have.
 ## Copyright
 
 © 2019 by [Stijn de Witt](https://stijndewitt.com). Some rights reserved.
+Contributions by [Jakub Jirutka](https://github.com/jirutka).
 
 
 ## License
