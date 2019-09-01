@@ -5,6 +5,7 @@
   "main": "anylogger.js",
   "files": [
     "anylogger.js",
+    "anylogger.d.ts",
     "anylogger.min.js",
     "anylogger.spec.js"
   ],
