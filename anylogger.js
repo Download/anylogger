@@ -63,24 +63,16 @@ a.levels = {error:1, warn:2, info:3, log:4, debug:5, trace:6}
  *
  * Creates a new logger function that calls `anylogger.log` when invoked.
  * 
- * Uses some evil eval trickery to create a named function so that function.name
- * corresponds to the module name given. Polyfills function.name on platforms
- * where it is not natively available.
- *
  * @param name {String} The name of the logger to create
  * @param config {Object} An optional config object
  *
  * @returns A new logger function with the given `name`.
  */
 a.new = function(n,c,r) {
-  // use eval to create a named function, this method has best cross-browser
-  // support and allows us to create functions with names containing symbols
-  // such as ':', '-' etc which otherwise are not legal in identifiers.
-  // the created function calls `anylogger.log` to call the actual log method
-  eval("r={'" + n + "':function(){a.log(n,[].slice.call(arguments))}}[n]")
-  // IE support: if the function name is not set, add a property manually
-  // the logging methods will be added by anylogger.ext
-  return r.name ? r : Object.defineProperty(r, 'name', {get:function(){return n}})
+  r = (new Function('a', 'n', "return {'" + n + "':function(){a.log(n,[].slice.call(arguments))}}[n]"))(a,n)
+  try {Object.defineProperty(r, 'name', {get:function(){return n}})} catch(e) {}
+  return r
+  // return {[n]: function(){a.log(n,[].slice.call(arguments))}}[n]
 }
 
 /**
@@ -119,6 +111,7 @@ a.log = function(n,x) {
  */
 a.ext = function(l,o) {
   o = typeof console != 'undefined' && console
+  l.enabledFor = function(){return !0}
   for (v in a.levels)
     l[v] = o && (o[v] || o.log) || function(){}
   return l;

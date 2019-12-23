@@ -22,6 +22,7 @@ export interface BaseLogger<L extends BaseLevels = BaseLevels> {
   log(message?: any, ...args: any[]): void
   debug(message?: any, ...args: any[]): void
   trace(message?: any, ...args: any[]): void
+  enabledFor(level: keyof L): boolean
 }
 
 export type Logger<L extends BaseLevels = BaseLevels> = BaseLogger<L> & {
@@ -64,6 +65,7 @@ export interface AnyLogger<L extends BaseLevels, T extends BaseLogger<L> = Logge
    * @param [params] Additional log (formatting) arguments.
    */
   log(name: string, level: keyof L, message?: any, ...args: any[]): void
+  
   /**
    * The log function used by `anylogger.new`.
    *
