@@ -5,7 +5,6 @@
 [![license](https://img.shields.io/npm/l/anylogger.svg)](https://opensource.org/licenses/MIT)
 [![travis](https://img.shields.io/travis/Download/anylogger.svg)](https://travis-ci.org/Download/anylogger)
 [![greenkeeper](https://img.shields.io/david/Download/anylogger.svg)](https://greenkeeper.io/)
-[![Greenkeeper badge](https://badges.greenkeeper.io/Download/anylogger.svg)](https://greenkeeper.io/)
 ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
 <sup><sub><sup><sub>.</sub></sup></sub></sup>
