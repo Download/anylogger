@@ -1,4 +1,4 @@
-# anylogger <sub><sup>0.19.0</sup></sub>
+# anylogger <sub><sup>0.20.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -65,9 +65,9 @@ logging framework.
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@0.19.0/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@0.20.0/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@0.19.0/anylogger.min.js) 
+* [anylogger.min.js](https://unpkg.com/anylogger@0.20.0/anylogger.min.js) 
   (minified 615 bytes, gzipped ~[386](#gzip-size) bytes)
 
 
@@ -75,7 +75,7 @@ logging framework.
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.19.0/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.20.0/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -89,7 +89,7 @@ Depending on your project type, install just anylogger, or anylogger +
 your logging framework of choice + an anylogger adapter if needed.
 
 ### Install in a library project
-If you are building a library, just install anylogger:
+If you are building a library, install just anylogger:
 
 ```sh
 npm install --save anylogger
@@ -103,12 +103,10 @@ as the application itself, add anylogger as a peer dependency:
 ```json
 {
   "peerDependencies": {
-    "anylogger": "^0.19.0"
+    "anylogger": ">=0.20.0"
   }
 }
 ```
-
-> You can just copy the entry from `dependencies`, it should be the same.
 
 When the user installs our library, if the peer dependency is not satisfied 
 by the project, NPM will warn about it during installation.
@@ -459,7 +457,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@0.19.0/anylogger.js)
+[source](https://unpkg.com/anylogger@0.20.0/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
