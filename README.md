@@ -1,4 +1,4 @@
-# anylogger <sub><sup>0.20.0</sup></sub>
+# anylogger <sub><sup>0.21.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -64,9 +64,9 @@ logging framework.
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@0.20.0/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@0.21.0/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@0.20.0/anylogger.min.js) 
+* [anylogger.min.js](https://unpkg.com/anylogger@0.21.0/anylogger.min.js) 
   (minified 615 bytes, gzipped ~[386](#gzip-size) bytes)
 
 
@@ -74,7 +74,7 @@ logging framework.
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.20.0/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.21.0/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -102,7 +102,7 @@ as the application itself, add anylogger as a peer dependency:
 ```json
 {
   "peerDependencies": {
-    "anylogger": ">=0.20.0"
+    "anylogger": ">=0.21.0"
   }
 }
 ```
@@ -384,7 +384,7 @@ anylogger.new(name, config) => logger
 ```
 Creates a new logger function that calls `anylogger.log` when invoked.
  
-Uses some evil eval trickery to create a named function so that function.name
+Uses `new Function(..)` to create a named function so that function.name
 corresponds to the module name given. Polyfills function.name on platforms
 where it is not natively available.
 
@@ -393,6 +393,11 @@ The name of the new logger. String. Required.
 
 ##### config
 An optional config object. Object. Optional.
+
+If the logging framework you are writing an adapter for uses a config
+object, you should override `anylogger.new` and do something useful with
+the config object here (set it as a property on the logger for example),
+because the default implementation just ignores it.
 
 Instead of completely trying to replace the original method, I recommend you 
 chain it to include your one-time customizations like this:
@@ -407,12 +412,14 @@ const make = anylogger.new
 anylogger.new = (name, config) => {
   // call the original function to chain it
   var logger = make(name, config)
-  // add your customizations
-  logger.myCoolFeature = function(){logger.info('My cool feature!')}
+  // do something useful with the config object
+  logger.config = config
   // return the customized logger
   return logger
 }
 ```
+
+> All anylogger methods are independent of `this` so they can all be easily chained
 
 If you need to re-apply customizations any time relevant config changes (such
 as active log level changing), override `anylogger.ext`.
@@ -456,7 +463,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@0.20.0/anylogger.js)
+[source](https://unpkg.com/anylogger@0.21.0/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
@@ -473,6 +480,8 @@ community. Publish it to NPM for all to use!
 Credits go to these people, who helped with this project:
 
 * [Jakub Jirutka](https://github.com/jirutka) who [contributed](https://github.com/Download/anylogger/pull/2) TypeScript type declarations.
+* [TJ Holowaychuk](https://github.com/tj) for writing [debug](https://npmjs.com/package/debug)
+* [Tim Perry](https://github.com/pimterry) for writing [loglevel](https://npmjs.com/package/loglevel)
 
 
 ## Issues
@@ -484,7 +493,7 @@ to let me know of any problems you find, or questions you may have.
 
 ## Copyright
 
-© 2019 by [Stijn de Witt](https://stijndewitt.com). Some rights reserved.
+© 2020 by [Stijn de Witt](https://stijndewitt.com). Some rights reserved.
 Contributions by [Jakub Jirutka](https://github.com/jirutka).
 
 
