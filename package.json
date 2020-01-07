@@ -1,6 +1,6 @@
 {
   "name": "anylogger",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "description": "Get a logger. Any logger.",
   "main": "anylogger.js",
   "files": [
@@ -33,6 +33,7 @@
     "anylogger",
     "anylogger-debug",
     "anylogger-loglevel",
+    "anylogger-log4js",
     "anylogger-tutorial",
     "microscopically small",
     "tiny",

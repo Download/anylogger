@@ -1,4 +1,4 @@
-# anylogger <sub><sup>0.21.0</sup></sub>
+# anylogger <sub><sup>0.22.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -64,9 +64,9 @@ logging framework.
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@0.21.0/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@0.22.0/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@0.21.0/anylogger.min.js) 
+* [anylogger.min.js](https://unpkg.com/anylogger@0.22.0/anylogger.min.js) 
   (minified 615 bytes, gzipped ~[386](#gzip-size) bytes)
 
 
@@ -74,7 +74,7 @@ logging framework.
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.21.0/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@0.22.0/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -102,7 +102,7 @@ as the application itself, add anylogger as a peer dependency:
 ```json
 {
   "peerDependencies": {
-    "anylogger": ">=0.21.0"
+    "anylogger": ">=0.22.0"
   }
 }
 ```
@@ -116,7 +116,7 @@ If you are building an application project and have selected a logging
 framework, in addition to installing anylogger itself, install the selected 
 logging framework and the anylogger adapter for that logging framework.
 
-For example for [debug](https://npmjs.com/package/debug):
+**For [debug](https://npmjs.com/package/debug)**:
 
 ```sh
 npm install --save anylogger debug anylogger-debug
@@ -124,7 +124,25 @@ npm install --save anylogger debug anylogger-debug
 
 This installs [anylogger-debug](https://npmjs.com/package/anylogger-debug).
 
-or, for [ulog](https://npmjs.com/package/ulog) which has native anylogger 
+**For [loglevel](https://npmjs.com/package/loglevel)**:
+
+```sh
+npm install --save anylogger loglevel anylogger-loglevel
+```
+
+This installs [anylogger-loglevel](https://npmjs.com/package/anylogger-loglevel).
+
+
+**For [log4js](https://npmjs.com/package/log4js)**:
+
+```sh
+npm install --save anylogger log4js anylogger-log4js
+```
+
+This installs [anylogger-log4js](https://npmjs.com/package/anylogger-log4js).
+
+
+**For [ulog](https://npmjs.com/package/ulog)** which has native anylogger 
 support since v2:
 
 ```sh
@@ -463,7 +481,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@0.21.0/anylogger.js)
+[source](https://unpkg.com/anylogger@0.22.0/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
