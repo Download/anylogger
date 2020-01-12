@@ -7,25 +7,85 @@
 [![greenkeeper](https://img.shields.io/david/Download/anylogger.svg)](https://greenkeeper.io/)
 ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
-<sup><sub><sup><sub>.</sub></sup></sub></sup>
-
 ## A logger for libraries
 
-Get whatever logging framework the host project is using, or a wrapper around 
-the console, or a dummy log object that does nothing. Anything really, that 
-will let your library do logging without you having to decide what logging 
-framework the app using your library should use.
+When we want to do logging from a library, we don't want to force the choice of 
+logging framework on the application developer. Instead, we want to use whatever 
+logging framework the application developer selected. `anylogger` let's you do
+just that.
 
-Anylogger will let the user of your library pick the logger for his app, and 
-will let your library pick up on whatever choice he made and run with it.
+## Quickstart
 
-> By choosing anylogger, you are explicitly not choosing any specific 
-> logging framework, but instead are limiting yourself to the 
-> [Anylogger API](#anylogger-api), a small API that only captures the 
-> bare essentials for logging, but because of that, is compatible with 
-> nearly every logging library out there.
+<table>
+  <tr>
+    <th><h3>Library</h3></th>   
+    <th><h3>App with <a href="https://npmjs.com/package/anylogger-debug"><tt>debug</tt></a></h3></th>   
+    <th><h3>App with <a href="https://npmjs.com/package/anylogger-loglevel"><tt>loglevel</tt></a></h3></th>  
+    <th><h3>App with <a href="https://npmjs.com/package/anylogger-log4js"><tt>log4js</tt></a></h3></th>
+    <th><h3>App with <a href="https://npmjs.com/package/anylogger-pino"><tt>pino</tt></a></h3></th>
+  </tr>
+  <tr>
+    <td><h5>Install</h5>
+      <pre>npm i -S anylogger</pre>
+      <h5>Add peer dependency</h5>
+      <pre>"peerDependencies": {
+  "anylogger": ">=0.22.0"
+}</pre>
+      <h5>Use</h5>
+      <pre>import anylogger from 'anylogger'
+const log = anylogger('my-library')
+log('Anylogger is easy!')</pre>
+    </td>
+    <td><h5>Install</h5>
+      <pre>npm i -S anylogger
+ debug anylogger-debug</pre>
+      <h5>Add to entry point</h5>
+      <i>index.js</i>
+      <pre>import "anylogger-debug"</pre>
+      <h5>Use</h5>
+      <pre>import anylogger from 'anylogger'
+const log = anylogger('my-app')
+log('Anylogger is easy!')</pre>
+    </td>
+    <td><h5>Install</h5>
+      <pre>npm i -S anylogger
+ loglevel anylogger-loglevel</pre>
+      <h5>Add to entry point</h5>
+      <i>index.js</i>
+      <pre>import "anylogger-loglevel"</pre>
+      <h5>Use</h5>
+      <pre>import anylogger from 'anylogger'
+const log = anylogger('my-app')
+log('Anylogger is easy!')</pre>
+    </td>
+    <td><h5>Install</h5>
+      <pre>npm i -S anylogger
+ log4js anylogger-log4js</pre>
+      <h5>Add to entry point</h5>
+      <i>index.js</i>
+      <pre>import "anylogger-log4js"</pre>
+      <h5>Use</h5>
+      <pre>import anylogger from 'anylogger'
+const log = anylogger('my-app')
+log('Anylogger is easy!')</pre>
+    </td>
+    <td><h5>Install</h5>
+      <pre>npm i -S anylogger
+ pino anylogger-pino</pre>
+      <h5>Add to entry point</h5>
+      <i>index.js</i>
+      <pre>import "anylogger-pino"</pre>
+      <h5>Use</h5>
+      <pre>import anylogger from 'anylogger'
+const log = anylogger('my-app')
+log('Anylogger is easy!')</pre>
+    </td>
+  </tr>
+</table>
 
-## A logging facade
+## What is this?
+
+### A logging facade
 
 We, the Javascript community, really need a logging facade. There are dozens 
 of logging libraries around and we library authors face a dilemma. Which logger
@@ -42,7 +102,7 @@ facade object by the actual logging framework with an
 So what we need is a simple and small logging facade and a bunch of adapters 
 for popular loggers.
 
-## Introducing `anylogger`
+### Introducing `anylogger`
 
 A tiny ~[386](#gzip-size) bytes logging facade that you can include in your
 library to have logging 'just work', while at the same time allowing
@@ -177,9 +237,7 @@ import anylogger from 'anylogger'
 const log = anylogger('my-library')
 ```
 
-
 ### Include in an application project
-
 In your main entry point, include your adapter or library with native support 
 so it extends anylogger:
 
@@ -232,7 +290,6 @@ var log = require('anylogger')('my-module')
 import anylogger from 'anylogger'
 const log = anylogger('my-module')
 ```
-
 
 ## Using anylogger
 
