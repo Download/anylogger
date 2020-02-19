@@ -26,7 +26,7 @@
     "cross-env": "^6.0.0",
     "gzip-size": "^5.1.1",
     "mocha": "^6.2.2",
-    "sinon": "^8.0.1",
+    "sinon": "^9.0.0",
     "uglify-js": "^3.7.2"
   },
   "keywords": [
