@@ -3,6 +3,7 @@
   "version": "0.22.0",
   "description": "Get a logger. Any logger.",
   "main": "anylogger.js",
+  "types": "anylogger.d.ts",
   "files": [
     "anylogger.js",
     "anylogger.d.ts",
