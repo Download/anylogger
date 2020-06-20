@@ -4,6 +4,7 @@
   "description": "Get a logger. Any logger.",
   "main": "anylogger.js",
   "module": "anylogger.esm.js",
+  "types": "anylogger.d.ts",
   "files": [
     "anylogger.js",
     "anylogger.d.ts",
@@ -31,6 +32,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "gzip-size": "^5.1.1",
+    "uglify-js": "^3.7.2"
     "mocha": "^8.0.1",
     "rollup": "^2.17.1",
     "sinon": "^9.0.2",
@@ -42,12 +44,13 @@
     "anylogger-loglevel",
     "anylogger-log4js",
     "anylogger-tutorial",
+    "console",
+    "logger",
+    "logging",
+    "logging facade",
     "microscopically small",
     "tiny",
-    "logging",
-    "logger",
-    "console",
-    "1kB",
-    "logging facade"
+    "ulog",
+    "1kB"
   ]
 }
