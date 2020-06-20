@@ -6,12 +6,14 @@
 [![travis](https://img.shields.io/travis/Download/anylogger.svg)](https://travis-ci.org/Download/anylogger)
 ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
+
 ## The logger for libraries
 
 When we want to do logging from a library, we don't want to force the choice of 
 logging framework on the application developer. Instead, we want to use whatever 
 logging framework the application developer selected. `anylogger` let's you do
 just that.
+
 
 ## Quickstart
 
@@ -79,6 +81,7 @@ log('Anylogger is easy!')</pre>
   </tr>
 </table>
 
+
 ## What is this?
 
 ### A logging facade
@@ -144,6 +147,7 @@ Depending on your project type, install just anylogger, or anylogger +
 your logging framework of choice + an anylogger adapter if needed.
 
 ### Install in a library project
+
 If you are building a library, install just anylogger:
 
 ```sh
@@ -152,22 +156,8 @@ npm install --save anylogger
 
 This will add `anylogger` as a dependency to your `package.json`.
 
-To enforce that your library ends up using the same anylogger version
-as the application itself, add anylogger as a peer dependency:
-
-```json
-{
-  "peerDependencies": {
-    "anylogger": ">=1.0.0"
-  }
-}
-```
-
-When the user installs our library, if the peer dependency is not satisfied 
-by the project, NPM will warn about it during installation.
-
-
 ### Install in an application project
+
 If you are building an application project and have selected a logging 
 framework, in addition to installing anylogger itself, install the selected 
 logging framework and the anylogger adapter for that logging framework.
@@ -207,12 +197,6 @@ npm install --save anylogger ulog
 
 > Because `ulog` supports `anylogger` natively, we don't need an adapter
 
-**For [pino](https://npmjs.com/package/pino)**:
-
-```sh
-npm install --save anylogger pino anylogger-pino
-```
-
 Check out all 
 [available adapters](https://www.npmjs.com/search?q=keywords:anylogger).
 
@@ -223,16 +207,17 @@ Depending on your project type, either just use anylogger,
 or also include the adapter.
 
 ### Include in a library
+
 In your libraries, only use anylogger and restrict yourself to the 
 [Anylogger API](#anylogger-api) to stay framework-independent:
 
-### require
+#### require
 *my-library.js*
 ```js
 var log = require('anylogger')('my-library')
 ```
 
-### import
+#### import
 *my-library.js*
 ```js
 import anylogger from 'anylogger'
@@ -240,58 +225,40 @@ const log = anylogger('my-library')
 ```
 
 ### Include in an application project
+
 In your main entry point, include your adapter or library with native support 
 so it extends anylogger:
 
-### require
+#### require
 *main.js*
 ```js
-// for debug
-var debug = require('debug')
+// e.g. for debug
 require('anylogger-debug')
-// libraries now use debug
-debug.enable('my-library')
-
-// or, for ulog
-var ulog = require('ulog') 
-// native support! no adapter needed :)
-// libraries now use ulog
-ulog.enable('my-library')
-
-// etc, see the specific library or adapter for details on anylogger support
 ```
 
-### import
+#### import
 *main.js*
 ```js
-// for debug
-import debug from 'debug' 
+// e.g. for debug
 import 'anylogger-debug'
-// libraries now use debug
-debug.enable('my-library') // enable debug mode
-
-// or, for ulog
-import ulog from 'ulog' 
-// native support! no adapter needed :)
-// libraries now use ulog
-ulog.enable('my-library') // enable debug mode
 ```
 
 In your other modules, use only anylogger and restrict yourself to the 
 [Anylogger API](#anylogger-api) to stay framework-independent:
 
-### require
+#### require
 *my-module.js*
 ```js
 var log = require('anylogger')('my-module')
 ```
 
-### import
+#### import
 *my-module.js*
 ```js
 import anylogger from 'anylogger'
 const log = anylogger('my-module')
 ```
+
 
 ## Using anylogger
 
@@ -300,7 +267,8 @@ Anylogger is very natural to use:
 ```js
 var log = require('anylogger')('my-module')
 
-log('A debug message')
+log('A log message')
+log('debug', 'A debug message')
 log('warn', 'A warning message')
 log.info(log.name + ' starting...')
 log.error('Something went wrong', new Error('Oh no!'))
@@ -383,7 +351,7 @@ logging frameworks out there, which mostly use one or both of these approaches.
 The main API looks like this (in pseudo code):
 
 ```js
-log: function(level='log', ...args)
+log: function([level='log'], ...args)
 log.error: function(...args)
 log.warn: function(...args)
 log.info: function(...args)
@@ -402,6 +370,7 @@ And that's about it. However this covers the basic logging needs.
 > polyfilled if needed.
 
 Is your logging framework not supported? No fear, just...
+
 
 ## Write an anylogger adapter
 
@@ -423,6 +392,7 @@ In addition, it is recommended you add the keyword `"anylogger"` to the
 [available adapters](https://www.npmjs.com/search?q=keywords:anylogger).
 
 ### anylogger extension points
+
 The process of logger creation and invocation is split up in such a way
 as to optimize possible extension points allowing extensions to re-use
 anylogger functionality and avoid having to duplicate code. The extension
@@ -559,6 +529,7 @@ Credits go to these people, who helped with this project:
 * [Jakub Jirutka](https://github.com/jirutka) who [contributed](https://github.com/Download/anylogger/pull/2) TypeScript type declarations.
 * [TJ Holowaychuk](https://github.com/tj) for writing [debug](https://npmjs.com/package/debug)
 * [Tim Perry](https://github.com/pimterry) for writing [loglevel](https://npmjs.com/package/loglevel)
+* The authors of log4js, log4js-node, morgan, bunyan, pino and all other log libraries out there
 
 
 ## Issues
@@ -578,7 +549,9 @@ Contributions by [Jakub Jirutka](https://github.com/jirutka).
 
 Licensed under the [MIT Open Source license](https://opensource.org/licenses/MIT).
 
+
 ## gzip-size
+
 The GZIP algorithm is available in different flavours and with different 
 possible compression settings. The sizes quoted in this README have been
 measured using [gzip-size](https://npmjs.com/package/gzip-size) 
