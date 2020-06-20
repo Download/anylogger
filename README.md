@@ -1,13 +1,12 @@
-# anylogger <sub><sup>0.22.0</sup></sub>
+# anylogger <sub><sup>1.0.0</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
 [![license](https://img.shields.io/npm/l/anylogger.svg)](https://opensource.org/licenses/MIT)
 [![travis](https://img.shields.io/travis/Download/anylogger.svg)](https://travis-ci.org/Download/anylogger)
-[![greenkeeper](https://img.shields.io/david/Download/anylogger.svg)](https://greenkeeper.io/)
 ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
-## A logger for libraries
+## The logger for libraries
 
 When we want to do logging from a library, we don't want to force the choice of 
 logging framework on the application developer. Instead, we want to use whatever 
@@ -22,15 +21,12 @@ just that.
     <th><h3>App with <a href="https://npmjs.com/package/anylogger-debug"><tt>debug</tt></a></h3></th>   
     <th><h3>App with <a href="https://npmjs.com/package/anylogger-loglevel"><tt>loglevel</tt></a></h3></th>  
     <th><h3>App with <a href="https://npmjs.com/package/anylogger-log4js"><tt>log4js</tt></a></h3></th>
-    <th><h3>App with <a href="https://npmjs.com/package/anylogger-pino"><tt>pino</tt></a></h3></th>
+    <th><h3>App with <a href="https://npmjs.com/package/ulog"><tt>ulog</tt></a></h3></th>
   </tr>
   <tr>
     <td><h5>Install</h5>
-      <pre>npm i -S anylogger</pre>
-      <h5>Add peer dependency</h5>
-      <pre>"peerDependencies": {
-  "anylogger": ">=0.22.0"
-}</pre>
+      <pre>npm i -S anylogger
+      </pre>
       <h5>Use</h5>
       <pre>import anylogger from 'anylogger'
 const log = anylogger('my-library')
@@ -71,10 +67,10 @@ log('Anylogger is easy!')</pre>
     </td>
     <td><h5>Install</h5>
       <pre>npm i -S anylogger
- pino anylogger-pino</pre>
+ ulog</pre>
       <h5>Add to entry point</h5>
       <i>index.js</i>
-      <pre>import "anylogger-pino"</pre>
+      <pre>import "ulog"</pre>
       <h5>Use</h5>
       <pre>import anylogger from 'anylogger'
 const log = anylogger('my-app')
@@ -104,14 +100,14 @@ for popular loggers.
 
 ### Introducing `anylogger`
 
-A tiny ~[386](#gzip-size) bytes logging facade that you can include in your
+A tiny ~[423](#gzip-size) bytes logging facade that you can include in your
 library to have logging 'just work', while at the same time allowing
 application developers to plug in any logging framework they choose.
 
 Instead of building in your own library specific configuration mechanism,
 or forcing the choice for a certain logging framework on your users,
 or just abandoning logging altogether, choose `anylogger` and for just 
-~[386](#gzip-size) bytes shared between all libraries doing this, we can
+~[423](#gzip-size) bytes shared between all libraries doing this, we can
 plug in any framework of our choice and all libraries will automatically 
 start to use that framework. Wouldn't it be much better and easier?
 
@@ -124,17 +120,17 @@ logging framework.
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@0.22.0/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@1.0.0/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@0.22.0/anylogger.min.js) 
-  (minified 615 bytes, gzipped ~[386](#gzip-size) bytes)
+* [anylogger.min.js](https://unpkg.com/anylogger@1.0.0/anylogger.min.js) 
+  (minified 706 bytes, gzipped ~[423](#gzip-size) bytes)
 
 
 ## CDN
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@0.22.0/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@1.0.0/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -162,7 +158,7 @@ as the application itself, add anylogger as a peer dependency:
 ```json
 {
   "peerDependencies": {
-    "anylogger": ">=0.22.0"
+    "anylogger": ">=1.0.0"
   }
 }
 ```
@@ -210,6 +206,12 @@ npm install --save anylogger ulog
 ```
 
 > Because `ulog` supports `anylogger` natively, we don't need an adapter
+
+**For [pino](https://npmjs.com/package/pino)**:
+
+```sh
+npm install --save anylogger pino anylogger-pino
+```
 
 Check out all 
 [available adapters](https://www.npmjs.com/search?q=keywords:anylogger).
@@ -326,7 +328,7 @@ So what does this API look like?
 ### anylogger
 
 ```js
-function anylogger(name, config) => logger
+function anylogger(name, options) => logger
 ```
 
 The main function to call to get a logger.
@@ -341,11 +343,11 @@ you want. You only get a logger if you supply a name. If the name is
 not given `anylogger()` will return an object containing all loggers,
 keyed by name.
 
-#### config
-An optional config object. Object. Optional. Defaults to `undefined`.
-The use of such config objects varies wildly amongst implementations so
+#### options
+An optional options object. Object. Optional. Defaults to `undefined`.
+The use of such options objects varies wildly amongst implementations so
 it is recommended to avoid using it where possible. However in case of
-implementations that require it, anylogger passes any config object it 
+implementations that require it, anylogger passes any options object it 
 is given on to [`anylogger.new`](#anyloggernew) to allow it to be used 
 where needed.
 
@@ -455,7 +457,7 @@ rely on the 6 console methods `error`, `warn`, `info`, `log`, `debug` and
 
 #### anylogger.new
 ```js
-anylogger.new(name, config) => logger
+anylogger.new(name, options) => logger
 ```
 Creates a new logger function that calls `anylogger.log` when invoked.
  
@@ -466,12 +468,12 @@ where it is not natively available.
 ##### name
 The name of the new logger. String. Required.
 
-##### config
-An optional config object. Object. Optional.
+##### options
+An optional options object. Object. Optional.
 
-If the logging framework you are writing an adapter for uses a config
+If the logging framework you are writing an adapter for uses an options
 object, you should override `anylogger.new` and do something useful with
-the config object here (set it as a property on the logger for example),
+the options object here (set it as a property on the logger for example),
 because the default implementation just ignores it.
 
 Instead of completely trying to replace the original method, I recommend you 
@@ -484,11 +486,11 @@ import anylogger from 'anylogger'
 const make = anylogger.new
 
 // override anylogger.new
-anylogger.new = (name, config) => {
+anylogger.new = (name, options) => {
   // call the original function to chain it
-  var logger = make(name, config)
-  // do something useful with the config object
-  logger.config = config
+  var logger = make(name, options)
+  // do something useful with the options object
+  logger.options = options
   // return the customized logger
   return logger
 }
@@ -538,7 +540,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@0.22.0/anylogger.js)
+[source](https://unpkg.com/anylogger@1.0.0/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.

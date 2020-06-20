@@ -1,3 +1,5 @@
 /node_modules
 /any.min.js
 /anylogger.min.js
+/anylogger.esm.js
+/anylogger.umd.js

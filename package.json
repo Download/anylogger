@@ -1,18 +1,24 @@
 {
   "name": "anylogger",
-  "version": "0.22.0",
+  "version": "1.0.0",
   "description": "Get a logger. Any logger.",
   "main": "anylogger.js",
+  "module": "anylogger.esm.js",
   "files": [
     "anylogger.js",
     "anylogger.d.ts",
+    "anylogger.esm.js",
+    "anylogger.umd.js",
     "anylogger.min.js",
     "anylogger.spec.js"
   ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production node build.js",
-    "test": "mocha anylogger.spec.js",
-    "prepare": "npm run test && npm run build"
+    "build": "npm run package -s && npm run minify -s && npm run docs -s",
+    "docs": "cross-env NODE_ENV=production node build.js docs",
+    "minify": "cross-env NODE_ENV=production node build.js minify",
+    "package": "cross-env NODE_ENV=production rollup -c",
+    "prepare": "npm run test && npm run build",
+    "test": "mocha anylogger.spec.js"
   },
   "author": "Stijn de Witt",
   "license": "MIT",
@@ -23,11 +29,12 @@
   "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",
-    "cross-env": "^6.0.0",
+    "cross-env": "^7.0.2",
     "gzip-size": "^5.1.1",
-    "mocha": "^6.2.2",
-    "sinon": "^8.0.1",
-    "uglify-js": "^3.7.2"
+    "mocha": "^8.0.1",
+    "rollup": "^2.17.1",
+    "sinon": "^9.0.2",
+    "uglify-js": "^3.9.4"
   },
   "keywords": [
     "anylogger",

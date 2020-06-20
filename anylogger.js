@@ -7,27 +7,27 @@
  *  https://opensource.org/licenses/MIT
  */
 
- // stores log modules keyed by name
-var m = Object.create(null)
+ // stores loggers keyed by name
+var loggers = Object.create(null)
 
 /**
- * anylogger([name] [, config]) => function logger([level='log'] [, ...args])
+ * anylogger([name] [, options]) => function logger([level='log'] [, ...args])
  * 
  * The main `anylogger` function creates a new or returns an existing logger 
  * with the given `name`. It maintains a registry of all created loggers, 
  * which it returns when called without a name, or with an empty name.
  * 
  * If anylogger needs to create a new logger, it invokes 
- * [`anylogger.create`](#anyloggercreate).
+ * [`anylogger.new`](#anyloggernew).
  * 
  * @param name {String} The name of the logger to create
- * @param config {Object} An optional config object
+ * @param options {Object} An optional options object
  * 
- * @returns A logger with the given `name` and `config`.
+ * @returns A logger with the given `name` and `options`.
  */
-var a = function(n,c){
+var anylogger = module.exports = function(name, options){
   // return the existing logger, or create a new one. if no name was given, return all loggers
-  return n ? m[n] || (m[n] = a.ext(a.new(n,c))) : m
+  return name ? loggers[name] || (loggers[name] = anylogger.ext(anylogger.new(name, options))) : loggers
 }
 
 /**
@@ -56,41 +56,42 @@ var a = function(n,c){
  * rely on the 6 console methods `error`, `warn`, `info`, `log`, `debug` and
  * `trace` to always be there.
  */
-a.levels = {error:1, warn:2, info:3, log:4, debug:5, trace:6}
+anylogger.levels = { error: 1, warn: 2, info: 3, log: 4, debug: 5, trace: 6 }
 
 /**
- * `anylogger.new(name, config)`
+ * `anylogger.new(name, options)`
  *
  * Creates a new logger function that calls `anylogger.log` when invoked.
  * 
  * @param name {String} The name of the logger to create
- * @param config {Object} An optional config object
+ * @param options {Object} An optional options object
  *
  * @returns A new logger function with the given `name`.
  */
-a.new = function(n,c,r) {
-  r = (new Function('a', 'n', "return {'" + n + "':function(){a.log(n,[].slice.call(arguments))}}[n]"))(a,n)
-  try {Object.defineProperty(r, 'name', {get:function(){return n}})} catch(e) {}
-  return r
-  // return {[n]: function(){a.log(n,[].slice.call(arguments))}}[n]
+anylogger.new = function(name, options) {
+  var result = new Function('a', 'n', "return {'" + name + "':function(){a.log(n,[].slice.call(arguments))}}[n]")(anylogger, name)
+  try {Object.defineProperty(result, 'name', {get:function(){return name}})} catch(e) {}
+  return result
 }
 
 /**
  * `anylogger.log(name, args)`
  * 
- * The log function used by `anylogger.new`.
+ * The log function used by the logger created by `anylogger.new`.
  * 
  * You can override this method to change invocation behavior.
  * 
- * @param name {String} The name of the logger to use
- * @param args {Array} The log arguments
+ * @param name {String} The name of the logger to use. Required. Not empty.
+ * @param args {Array} The log arguments. Required. May be empty.
  * 
- * This method inspects the first argument in `args` to determine the log 
- * level to log at (defaults to 'log') and then calls the correct method 
- * on the logger function with the remaining arguments. 
+ * If multiple arguments were given in `args` and the first argument is a 
+ * log level name from anylogger.levels, this method will remove that argument
+ * and call the corresponding log method with the remaining arguments. 
+ * Otherwise it will call the `log` method with the arguments given.
  */
-a.log = function(n,x) {
-  m[n][x.length > 1 && a.levels[x[0]] ? x.shift() : 'log'].apply(m[n], x)
+anylogger.log = function(name, args) {
+  var level = args.length > 1 && anylogger.levels[args[0]] ? args.shift() : 'log'
+  loggers[name][level].apply(loggers[name], args)
 }
 
 /**
@@ -109,12 +110,11 @@ a.log = function(n,x) {
  * 
  * @return The logger that was given, extended
  */
-a.ext = function(l,o) {
-  o = typeof console != 'undefined' && console
-  l.enabledFor = function(){return !0}
-  for (v in a.levels)
-    l[v] = o && (o[v] || o.log) || function(){}
-  return l;
+anylogger.ext = function(logger) {
+  var out = typeof console != 'undefined' && console;
+  logger.enabledFor = function(){return !0};
+  for (var method in anylogger.levels) {
+    logger[method] = out && (out[method] || out.log) || function(){}
+  }
+  return logger;
 }
-
-module.exports = a
