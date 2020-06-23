@@ -4,10 +4,17 @@ import pkg from './package.json';
 
 export default [
 	{
-		input: pkg.main,
+		input: pkg.src,
+
 		output: [
-      // browser-friendly UMD build
-      { file: 'anylogger.umd.js',  format: 'umd' },
+      // ES module build
+			{ file: pkg.module,  name: 'anylogger', format: 'esm', strict: false },
+
+      // commonjs build
+			{ file: pkg.main,  name: 'anylogger', format: 'cjs', strict: false },
+
+      // browser-friendly build
+			{ file: pkg.iife,  name: 'anylogger', format: 'iife', strict: false },
 		]
 	}
 ];

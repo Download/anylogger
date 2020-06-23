@@ -3,3 +3,5 @@
 /anylogger.min.js
 /anylogger.esm.js
 /anylogger.umd.js
+/anylogger.cjs.js
+/anylogger.iife.js

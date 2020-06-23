@@ -25,7 +25,7 @@ var loggers = Object.create(null)
  * 
  * @returns A logger with the given `name` and `options`.
  */
-var anylogger = module.exports = function(name, options){
+var anylogger = function(name, options){
   // return the existing logger, or create a new one. if no name was given, return all loggers
   return name ? loggers[name] || (loggers[name] = anylogger.ext(anylogger.new(name, options))) : loggers
 }
@@ -118,3 +118,5 @@ anylogger.ext = function(logger) {
   }
   return logger;
 }
+
+export default anylogger

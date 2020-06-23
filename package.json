@@ -1,25 +1,31 @@
 {
   "name": "anylogger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Get a logger. Any logger.",
-  "main": "anylogger.js",
-  "module": "anylogger.esm.js",
-  "types": "anylogger.d.ts",
+  "src": "./anylogger.js",
+  "main": "./anylogger.cjs.js",
+  "module": "./anylogger.esm.js",
+  "iife": "./anylogger.iife.js",
+  "min": "./anylogger.min.js",
+  "types": "./anylogger.d.ts",
+  "spec": "./anylogger.spec.js",
   "files": [
-    "anylogger.js",
-    "anylogger.d.ts",
-    "anylogger.esm.js",
-    "anylogger.umd.js",
-    "anylogger.min.js",
-    "anylogger.spec.js"
+    "./anylogger.js",
+    "./anylogger.cjs.js",
+    "./anylogger.esm.js",
+    "./anylogger.iife.js",
+    "./anylogger.min.js",
+    "./anylogger.d.ts",
+    "./anylogger.spec.js",
+    "./test.html"
   ],
   "scripts": {
-    "build": "npm run package -s && npm run minify -s && npm run docs -s",
+    "build": "npm run test -s && npm run minify -s && npm run docs -s",
     "docs": "cross-env NODE_ENV=production node build.js docs",
     "minify": "cross-env NODE_ENV=production node build.js minify",
     "package": "cross-env NODE_ENV=production rollup -c",
-    "prepare": "npm run test && npm run build",
-    "test": "mocha anylogger.spec.js"
+    "prepare": "npm run build",
+    "test": "npm run package -s && mocha anylogger.spec.js"
   },
   "author": "Stijn de Witt",
   "license": "MIT",
@@ -33,9 +39,9 @@
     "cross-env": "^7.0.2",
     "gzip-size": "^5.1.1",
     "mocha": "^8.0.1",
-    "rollup": "^2.17.1",
+    "rollup": "^2.18.0",
     "sinon": "^9.0.2",
-    "uglify-js": "^3.9.4"
+    "uglify-js": "^3.10.0"
   },
   "keywords": [
     "anylogger",

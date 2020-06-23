@@ -1,22 +1,10 @@
 var expect = require('chai').expect
 var sinon = require('sinon')
-var anylogger = require('./anylogger')
+var anylogger = require('./anylogger.cjs')
 
 var sandbox = sinon.createSandbox();
 
 describe('anylogger([name, [options]]) => log', function() {
-  beforeEach(function(){
-    // spy on the console methods
-    /*
-    console.trace && sandbox.spy(console, 'trace')
-    console.debug && sandbox.spy(console, 'debug')
-    console.log   && sandbox.spy(console, 'log')
-    console.info  && sandbox.spy(console, 'info')
-    console.warn  && sandbox.spy(console, 'warn')
-    console.error && sandbox.spy(console, 'error')
-    */
-  })
-
   afterEach(function(){
     // clear any loggers that were created
     Object.keys(anylogger()).forEach(function(key){
@@ -25,7 +13,6 @@ describe('anylogger([name, [options]]) => log', function() {
     // restore original console methods
     sandbox.restore()
   })
-
 
   it('is a function', function(){
     expect(anylogger).to.be.a('function')

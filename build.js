@@ -2,31 +2,33 @@ var fs = require('fs')
 var UglifyJS = require('uglify-js')
 var gzipSize = require('gzip-size')
 // be uber-cool and use anylogger to print the logging in the build of anylogger :)
-var log = require('./anylogger')('anylogger')
+var log = function(l,m){console[l](m)} 
 
 var [ processName, script, command, ...args ] = process.argv
 var pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
 var v = pkg.version
 
 ;(function(){
-  var data = fs.readFileSync('./anylogger.umd.js', 'utf8')
+  var data
 
   if (!command || command == 'minify') {
+    data = fs.readFileSync(pkg.iife, 'utf8')
     data = UglifyJS.minify(data);
     if (data.error) {
-      return log('error', data)
+      return log('error', data.error)
     }
     data = data.code;
-    fs.writeFileSync('anylogger.min.js', data, 'utf8')
+    fs.writeFileSync(pkg.min, data, 'utf8')
   }
   else {
-    data = fs.readFileSync('./anylogger.min.js', 'utf8')
+    data = fs.readFileSync(pkg.min, 'utf8')
   }
 
-  var min = data.length, gzip = gzipSize.sync(data)
+  var min = data.length
+  var gzip = gzipSize.sync(data)
 
   if (!command || command == 'minify') {
-    log('info', 'created anylogger.min.js (' + min + 'B, gzipped ~' + gzip + 'B)')
+    log('info', 'created ' + pkg.min + ' (' + min + 'B, gzipped ~' + gzip + 'B)')
   }
 
   if (!command || command == 'docs') {
