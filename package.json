@@ -1,6 +1,6 @@
 {
   "name": "anylogger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Get a logger. Any logger.",
   "src": "./anylogger.js",
   "main": "./anylogger.cjs.js",
@@ -10,14 +10,14 @@
   "types": "./anylogger.d.ts",
   "spec": "./anylogger.spec.js",
   "files": [
-    "./anylogger.js",
-    "./anylogger.cjs.js",
-    "./anylogger.esm.js",
-    "./anylogger.iife.js",
-    "./anylogger.min.js",
-    "./anylogger.d.ts",
-    "./anylogger.spec.js",
-    "./test.html"
+    "anylogger.js",
+    "anylogger.cjs.js",
+    "anylogger.esm.js",
+    "anylogger.iife.js",
+    "anylogger.min.js",
+    "anylogger.d.ts",
+    "anylogger.spec.js",
+    "test.html"
   ],
   "scripts": {
     "build": "npm run test -s && npm run minify -s && npm run docs -s",
