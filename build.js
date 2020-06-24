@@ -36,6 +36,7 @@ var v = pkg.version
     readme = readme.replace(/minified \d\d\d bytes/g, 'minified ' + min + ' bytes')
     readme = readme.replace(/\[\d\d\d\]\(#gzip-size\)/g, '[' + gzip + '](#gzip-size)')
     readme = readme.replace(/\<sub\>\<sup\>\d(\d)?\.\d(\d)?\.\d(\d)?\<\/sup\>\<\/sub\>/g, `<sub><sup>${v}</sup></sub>`)
+    readme = readme.replace(/&v=\d(\d)?\.\d(\d)?\.\d(\d)?/g, `&v=${v}`)
     readme = readme.replace(/\@\d(\d)?\.\d(\d)?\.\d(\d)?\//g, `@${v}/`)
     readme = readme.replace(/\>\=\d(\d)?\.\d(\d)?\.\d(\d)?/g, `>=${v}`)
     fs.writeFileSync('README.md', readme, 'utf8')
