@@ -2,7 +2,7 @@
  *  A  N  Y  L  O  G  G  E  R
  *  Get a logger. Any logger.
  * 
- *  © 2019 by Stijn de Witt, some rights reserved
+ *  © 2020 by Stijn de Witt, some rights reserved
  *  Licensed under the MIT Open Source license
  *  https://opensource.org/licenses/MIT
  */

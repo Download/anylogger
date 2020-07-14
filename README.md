@@ -1,9 +1,9 @@
-# anylogger <sub><sup>1.0.3</sup></sub>
+# anylogger <sub><sup>1.0.4</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
 [![license](https://img.shields.io/npm/l/anylogger.svg)](https://opensource.org/licenses/MIT)
-[![travis](https://img.shields.io/travis/Download/anylogger.svg)](https://travis-ci.org/Download/anylogger.png?branch=master&v=1.0.3)
+[![travis](https://img.shields.io/travis/Download/anylogger.svg)](https://travis-ci.org/Download/anylogger.png?branch=master&v=1.0.4)
 ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
 
@@ -87,7 +87,7 @@ log('Anylogger is easy!')</pre>
 ### A logging facade
 
 We, the Javascript community, really need a logging facade. There are dozens 
-of logging libraries around and we library authors face a dilemma. Which logger
+of logging libraries around and we library authors face a challenge. Which logger
 do we pick? Should we make this configurable? Should we just not log? Use the
 console directly? How do we deal with this complexity?
 
@@ -114,18 +114,12 @@ or just abandoning logging altogether, choose `anylogger` and for just
 plug in any framework of our choice and all libraries will automatically 
 start to use that framework. Wouldn't it be much better and easier?
 
-At the application level, the app developers choose whatever logging framework 
-they prefer and install the anylogger-to-their-framework adapter. They make
-sure to require the adapter in the application entry point and from that point
-on, any library using anylogger will automatically start using the selected 
-logging framework.
-
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@1.0.3/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@1.0.4/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@1.0.3/anylogger.min.js) 
+* [anylogger.min.js](https://unpkg.com/anylogger@1.0.4/anylogger.min.js) 
   (minified 636 bytes, gzipped ~[390](#gzip-size) bytes)
 
 
@@ -133,7 +127,7 @@ logging framework.
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@1.0.3/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@1.0.4/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -510,7 +504,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@1.0.3/anylogger.js)
+[source](https://unpkg.com/anylogger@1.0.4/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
