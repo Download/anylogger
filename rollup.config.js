@@ -7,9 +7,6 @@ export default [
 		input: pkg.src,
 
 		output: [
-      // ES module build
-			{ file: pkg.module,  name: 'anylogger', format: 'esm', strict: false },
-
       // commonjs build
 			{ file: pkg.main,  name: 'anylogger', format: 'cjs', strict: false },
 

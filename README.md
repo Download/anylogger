@@ -1,9 +1,9 @@
-# anylogger <sub><sup>1.0.4</sup></sub>
+# anylogger <sub><sup>1.0.5</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
 [![license](https://img.shields.io/npm/l/anylogger.svg)](https://opensource.org/licenses/MIT)
-[![travis](https://img.shields.io/travis/Download/anylogger.svg)](https://travis-ci.org/Download/anylogger.png?branch=master&v=1.0.4)
+[![travis](https://img.shields.io/travis/Download/anylogger.svg)](https://travis-ci.org/Download/anylogger.png?branch=master&v=1.0.5)
 ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
 
@@ -117,9 +117,9 @@ start to use that framework. Wouldn't it be much better and easier?
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@1.0.4/anylogger.js) 
+* [anylogger.js](https://unpkg.com/anylogger@1.0.5/anylogger.js) 
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@1.0.4/anylogger.min.js) 
+* [anylogger.min.js](https://unpkg.com/anylogger@1.0.5/anylogger.min.js) 
   (minified 636 bytes, gzipped ~[390](#gzip-size) bytes)
 
 
@@ -127,7 +127,7 @@ start to use that framework. Wouldn't it be much better and easier?
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@1.0.4/anylogger.min.js"></script>
+<script src="https://unpkg.com/anylogger@1.0.5/anylogger.min.js"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -504,7 +504,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method. 
 
 Please have a look at the 
-[source](https://unpkg.com/anylogger@1.0.4/anylogger.js)
+[source](https://unpkg.com/anylogger@1.0.5/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
