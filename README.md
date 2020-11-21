@@ -33,7 +33,7 @@ just that.
 const log = anylogger('my-library')
 log('Anylogger is easy!')</pre>
       <p>Install your preferred logger
-      and it's adapter as [dev dependencies](#install_dev_dependencies_in_a_library_project)</p>
+      and it's adapter as <a href="#install_dev_dependencies_in_a_library_project">dev dependencies</a>.</p>
     </td>
     <td><h5>Install</h5>
       <pre>npm i -P anylogger
