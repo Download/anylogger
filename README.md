@@ -27,14 +27,13 @@ just that.
   </tr>
   <tr>
     <td><h5>Install</h5>
-      <pre>npm i -P anylogger && npm i -D &lt;mylogger&gt;</pre>
-      <h5>In your tests/h5>
-      <i>test.js</i>
-      <pre>import "anylogger-mylogger"</pre>
+      <pre>npm i -P anylogger</pre>
       <h5>Use</h5>
       <pre>import anylogger from 'anylogger'
 const log = anylogger('my-library')
 log('Anylogger is easy!')</pre>
+      <p>Install your preferred logger
+      and it's adapter as [dev dependencies](#install_dev_dependencies_in_a_library_project)</p>
     </td>
     <td><h5>Install</h5>
       <pre>npm i -P anylogger
@@ -268,8 +267,8 @@ const log = anylogger('my-library')
 
 In the tests for your library code, you can include an adapter and make your
 library use the logging framework of your choice without having to add it as a
-dependency for your library. You can add them as development dependencies.
-See [Install dev dependencies in a library project](#Install_dev_dependencies_in_a_library_project).
+dependency for your library. You can add them as
+[development dependencies](#install_dev_dependencies_in_a_library_project).
 
 #### require
 *my-library.test.js*
