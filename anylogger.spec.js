@@ -10,7 +10,7 @@ describe('anylogger([name, [options]]) => log', function() {
     Object.keys(anylogger()).forEach(function(key){
       delete anylogger()[key]
     })
-    // restore original console methods
+    // restore sandbox methods
     sandbox.restore()
   })
 
@@ -143,8 +143,7 @@ describe('anylogger([name, [options]]) => log', function() {
       expect(log.enabledFor).to.be.a('function')
       var log = anylogger('test')
       sandbox.spy(log, 'enabledFor')
-      var actual = log.enabledFor('info')
-      expect(!!actual).to.equal(true)
+      log.enabledFor('info')
       expect(log.enabledFor.callCount).to.equal(1)
     })
 

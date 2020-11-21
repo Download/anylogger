@@ -8,7 +8,7 @@ export default [
 
 		output: [
       // commonjs build
-			{ file: pkg.main,  name: 'anylogger', format: 'cjs', strict: false },
+			{ file: pkg.main,  name: 'anylogger', format: 'cjs', strict: false, exports: 'default' },
 
       // browser-friendly build
 			{ file: pkg.iife,  name: 'anylogger', format: 'iife', strict: false },
