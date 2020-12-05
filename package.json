@@ -1,6 +1,6 @@
 {
   "name": "anylogger",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Get a logger. Any logger.",
   "src": "./anylogger.js",
   "main": "./anylogger.cjs.js",
@@ -8,6 +8,7 @@
   "min": "./anylogger.min.js",
   "types": "./anylogger.d.ts",
   "spec": "./anylogger.spec.js",
+  "unpkg": "./anylogger.min.js",
   "files": [
     "anylogger.js",
     "anylogger.cjs.js",

@@ -71,7 +71,7 @@ anylogger.levels = { error: 1, warn: 2, info: 3, log: 4, debug: 5, trace: 6 }
 anylogger.new = function(name, options) {
   var result
   // support legacy browsers using unsafe-eval
-  try {result = new Function('a', 'n', "return {'" + name + "':function(){a.log(n,[].slice.call(arguments))}}[n]")(anylogger, name)} 
+  try {result = new Function('a', 'n', "return {'" + name + "':function(){a.log(n,[].slice.call(arguments))}}[n]")(anylogger, name)}
   // fallback to method that works only on modern browsers
   catch(e){result = {[name]:function(){anylogger.log(name, [].slice.call(arguments))}}[name]}
   // some old browsers dont'create the function.name property. polyfill it for those
@@ -116,19 +116,9 @@ anylogger.log = function(name, args) {
  * @return The logger that was given, extended
  */
 anylogger.ext = function(logger) {
-//  var out = typeof console != 'undefined' && console;
   logger.enabledFor = function(){}
   for (var method in anylogger.levels) {logger[method] = function(){}}
-  return logger;
+  return logger
 }
-
-// anylogger.ext = function(logger) {
-//   var out = typeof console != 'undefined' && console;
-//   logger.enabledFor = function(){return !0};
-//   for (var method in anylogger.levels) {
-//     logger[method] = out && (out[method] || out.log) || function(){}
-//   }
-//   return logger;
-// }
 
 export default anylogger
