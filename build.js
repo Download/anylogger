@@ -2,7 +2,7 @@ var fs = require('fs')
 var UglifyJS = require('uglify-js')
 var gzipSize = require('gzip-size')
 // be uber-cool and use anylogger to print the logging in the build of anylogger :)
-var log = function(l,m){console[l](m)} 
+var log = function(l,m){console[l](m)}
 
 var [ processName, script, command, ...args ] = process.argv
 var pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
@@ -37,7 +37,7 @@ var v = pkg.version
     readme = readme.replace(/\[\d\d\d\]\(#gzip-size\)/g, '[' + gzip + '](#gzip-size)')
     readme = readme.replace(/\<sub\>\<sup\>\d(\d)?\.\d(\d)?\.\d(\d)?\<\/sup\>\<\/sub\>/g, `<sub><sup>${v}</sup></sub>`)
     readme = readme.replace(/&v=\d(\d)?\.\d(\d)?\.\d(\d)?/g, `&v=${v}`)
-    readme = readme.replace(/\@\d(\d)?\.\d(\d)?\.\d(\d)?\//g, `@${v}/`)
+    readme = readme.replace(/anylogger@\d(\d)?\.\d(\d)?\.\d(\d)?/g, `anylogger@${v}`)
     readme = readme.replace(/\>\=\d(\d)?\.\d(\d)?\.\d(\d)?/g, `>=${v}`)
     fs.writeFileSync('README.md', readme, 'utf8')
     log('info', 'updated README.md')

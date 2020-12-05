@@ -1,6 +1,6 @@
 {
   "name": "anylogger",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Get a logger. Any logger.",
   "src": "./anylogger.js",
   "main": "./anylogger.cjs.js",
