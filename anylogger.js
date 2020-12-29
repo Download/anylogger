@@ -69,14 +69,11 @@ anylogger.levels = { error: 1, warn: 2, info: 3, log: 4, debug: 5, trace: 6 }
  * @returns A new logger function with the given `name`.
  */
 anylogger.new = function(name, options) {
-  var result
-  // support legacy browsers using unsafe-eval
-  try {result = new Function('a', 'n', "return {'" + name + "':function(){a.log(n,[].slice.call(arguments))}}[n]")(anylogger, name)}
-  // fallback to method that works only on modern browsers
-  catch(e){result = {[name]:function(){anylogger.log(name, [].slice.call(arguments))}}[name]}
+  var result = {}
+  result[name] = function() {anylogger.log(name, [].slice.call(arguments))}
   // some old browsers dont'create the function.name property. polyfill it for those
-  try {Object.defineProperty(result, 'name', {get:function(){return name}})} catch(e) {}
-  return result
+  try {Object.defineProperty(result[name], 'name', {get:function(){return name}})} catch(e) {}
+  return result[name]
 }
 
 /**
@@ -120,5 +117,6 @@ anylogger.ext = function(logger) {
   for (var method in anylogger.levels) {logger[method] = function(){}}
   return logger
 }
+
 
 export default anylogger

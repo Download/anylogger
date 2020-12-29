@@ -1,4 +1,4 @@
-# anylogger <sub><sup>1.0.9</sup></sub>
+# anylogger <sub><sup>1.0.10</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -104,31 +104,31 @@ for popular loggers.
 
 ### Introducing `anylogger`
 
-A tiny ~[370](#gzip-size) bytes logging facade that you can include in your
+A tiny ~[330](#gzip-size) bytes logging facade that you can include in your
 library to support logging, while at the same time allowing application
 developers to plug in any logging framework they choose.
 
 Instead of building in your own library specific configuration mechanism,
 or forcing the choice for a certain logging framework on your users,
 or just abandoning logging altogether, choose `anylogger` and for just
-~[370](#gzip-size) bytes shared between all libraries doing this, we can
+~[330](#gzip-size) bytes shared between all libraries doing this, we can
 plug in any framework of our choice and all libraries will automatically
 start to use that framework. Wouldn't it be much better and easier?
 
 
 ## Download
 
-* [anylogger.js](https://unpkg.com/anylogger@1.0.9/anylogger.js)
+* [anylogger.js](https://unpkg.com/anylogger@1.0.10/anylogger.js)
   (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@1.0.9)
-  (minified 639 bytes, gzipped ~[370](#gzip-size) bytes)
+* [anylogger.min.js](https://unpkg.com/anylogger@1.0.10)
+  (minified 532 bytes, gzipped ~[330](#gzip-size) bytes)
 
 
 ## CDN
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@1.0.9"></script>
+<script src="https://unpkg.com/anylogger@1.0.10"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -576,7 +576,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method.
 
 Please have a look at the
-[source](https://unpkg.com/anylogger@1.0.9/anylogger.js)
+[source](https://unpkg.com/anylogger@1.0.10/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
