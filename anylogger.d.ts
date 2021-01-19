@@ -32,7 +32,7 @@ declare namespace anylogger {
     [P in keyof Omit<L, keyof BaseLevels>]: (message?: any, ...args: any[]) => void
   }
 
-  interface AnyLogger<L extends BaseLevels, T extends BaseLogger<L> = Logger<L>> {
+  interface AnyLogger<L extends BaseLevels = BaseLevels, T extends BaseLogger<L> = Logger<L>> {
     /**
      * Returns an object containing all loggers created so far, keyed by name.
      */
@@ -87,7 +87,7 @@ declare namespace anylogger {
   }
 }
 
-declare const anylogger: anylogger.AnyLogger<anylogger.BaseLevels>
+declare const anylogger: anylogger.AnyLogger
 
 // NOTE: Do not rewrite it into `export default` unless anylogger's `main`
 // entrypoint actually exports `default`.
