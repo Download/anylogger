@@ -118,5 +118,6 @@ anylogger.ext = function(logger) {
   return logger
 }
 
+anylogger.default = anylogger
 
 export default anylogger

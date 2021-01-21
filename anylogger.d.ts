@@ -1,4 +1,6 @@
 declare namespace anylogger {
+  // vs export as namespace anylogger;  ??
+
   // NOTE: All types in this scope are implicitly exported.
 
   type BaseLevels = {
@@ -87,8 +89,10 @@ declare namespace anylogger {
   }
 }
 
-declare const anylogger: anylogger.AnyLogger
+declare const anylogger: AnyLogger
 
 // NOTE: Do not rewrite it into `export default` unless anylogger's `main`
 // entrypoint actually exports `default`.
 export = anylogger
+export default anylogger
+// please verify in anylogger.js that we now export to 'default' as well...
