@@ -85,4 +85,4 @@ export interface AnyLogger<L extends BaseLevels, T extends BaseLogger<L> = Logge
 
 declare const anylogger: AnyLogger<BaseLevels>
 
-export default anylogger
+export = anylogger
