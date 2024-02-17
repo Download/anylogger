@@ -1,6 +1,6 @@
 // import resolve from 'rollup-plugin-node-resolve';
 // import commonjs from 'rollup-plugin-commonjs';
-import pkg from './package.json';
+import pkg from './package.json' assert { type: "json" };
 
 export default [
 	{
@@ -8,7 +8,7 @@ export default [
 
 		output: [
       // commonjs build
-			{ file: pkg.main,  name: 'anylogger', format: 'cjs', strict: false, exports: 'default' },
+			{ file: pkg.cjs,  name: 'anylogger', format: 'cjs', strict: false, exports: 'default' },
 
       // browser-friendly build
 			{ file: pkg.iife,  name: 'anylogger', format: 'iife', strict: false },

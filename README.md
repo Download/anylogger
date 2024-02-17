@@ -3,7 +3,6 @@
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
 [![license](https://img.shields.io/npm/l/anylogger.svg)](https://opensource.org/licenses/MIT)
-[![travis](https://img.shields.io/travis/Download/anylogger.svg)](https://travis-ci.org/github/Download/anylogger)
 ![mind BLOWN](https://img.shields.io/badge/mind-BLOWN-ff69b4.svg)
 
 
@@ -20,10 +19,14 @@ just that.
 <table>
   <tr>
     <th><h3>Library</h3></th>
-    <th><h3>App with <a href="https://npmjs.com/package/anylogger-debug"><tt>debug</tt></a></h3></th>
-    <th><h3>App with <a href="https://npmjs.com/package/anylogger-loglevel"><tt>loglevel</tt></a></h3></th>
-    <th><h3>App with <a href="https://npmjs.com/package/ulog"><tt>ulog</tt></a></h3></th>
-    <th><h3>App with <a href="https://npmjs.com/package/anylogger-log4js"><tt>log4js</tt></a></h3></th>
+    <th><h3>App with <a href="https://npmjs.com/package/anylogger-debug"
+    ><tt>debug</tt></a></h3></th>
+    <th><h3>App with <a href="https://npmjs.com/package/anylogger-loglevel"
+    ><tt>loglevel</tt></a></h3></th>
+    <th><h3>App with <a href="https://npmjs.com/package/ulog"
+    ><tt>ulog</tt></a></h3></th>
+    <th><h3>App with <a href="https://npmjs.com/package/anylogger-log4js"
+    ><tt>log4js</tt></a></h3></th>
   </tr>
   <tr>
     <td><h5>Install</h5>
@@ -104,24 +107,30 @@ for popular loggers.
 
 ### Introducing `anylogger`
 
-A tiny ~[330](#gzip-size) bytes logging facade that you can include in your
+A tiny ~[264](#gzip-size) bytes logging facade that you can include in your
 library to support logging, while at the same time allowing application
 developers to plug in any logging framework they choose.
 
 Instead of building in your own library specific configuration mechanism,
 or forcing the choice for a certain logging framework on your users,
 or just abandoning logging altogether, choose `anylogger` and for just
-~[330](#gzip-size) bytes shared between all libraries doing this, we can
+~[264](#gzip-size) bytes shared between all libraries doing this, we can
 plug in any framework of our choice and all libraries will automatically
 start to use that framework. Wouldn't it be much better and easier?
 
 
 ## Download
 
+* [anylogger.ts](https://unpkg.com/anylogger@1.0.11/anylogger.ts)
+  (fully commented source ~6kB)
+* [anylogger.d.ts](https://unpkg.com/anylogger@1.0.11/anylogger.d.ts)
+  (typescript type definitions ~5kB)
 * [anylogger.js](https://unpkg.com/anylogger@1.0.11/anylogger.js)
-  (fully commented source ~5kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@1.0.11)
-  (minified 532 bytes, gzipped ~[330](#gzip-size) bytes)
+  (transpiled es6 ecmascript module ~1kB)
+* [anylogger.cjs](https://unpkg.com/anylogger@1.0.11/anylogger.cjs)
+  (transpiled es6 commonjs module ~1kB)
+* [anylogger.min.js](https://unpkg.com/anylogger@1.0.11/anylogger.min.js)
+  (minified 361 bytes, gzipped ~[264](#gzip-size) bytes)
 
 
 ## CDN

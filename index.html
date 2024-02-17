@@ -1,0 +1,12 @@
+<script src="https://unpkg.com/anylogger@1.0.11"></script>
+<script>(function(){ // IIFE
+  anylogger.ext = (logfn) => {
+    logfn.enabledFor = () => true
+    for (const key of Object.keys(anylogger.levels)) {
+      logfn[key] = console[key]
+    }
+    return logfn
+  }
+  var log = anylogger('index.html')
+  log.info('Logging is simple!')
+})()</script>

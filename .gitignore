@@ -1,8 +1,8 @@
 /node_modules
-/any.min.js
-/anylogger.min.js
-/anylogger.esm.js
-/anylogger.umd.js
-/anylogger.cjs.js
+/anylogger.cjs
+/anylogger.d.ts
+/anylogger.d.ts.map
 /anylogger.iife.js
+/anylogger.js
+/anylogger.min.js
 /test.js
