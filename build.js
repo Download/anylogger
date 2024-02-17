@@ -1,6 +1,6 @@
-var fs = require('fs')
-var UglifyJS = require('uglify-js')
-var gzipSize = require('gzip-size')
+import fs from 'fs'
+import UglifyJS from 'uglify-js'
+import { gzipSizeSync } from 'gzip-size'
 // be uber-cool and use anylogger to print the logging in the build of anylogger :)
 var log = function(l,m){console[l](m)}
 
@@ -25,7 +25,7 @@ var v = pkg.version
   }
 
   var min = data.length
-  var gzip = gzipSize.sync(data)
+  var gzip = gzipSizeSync(data)
 
   if (!command || command == 'minify') {
     log('info', 'created ' + pkg.min + ' (' + min + 'B, gzipped ~' + gzip + 'B)')
@@ -35,9 +35,9 @@ var v = pkg.version
     var readme = fs.readFileSync('./README.md', 'utf-8')
     readme = readme.replace(/minified \d\d\d bytes/g, 'minified ' + min + ' bytes')
     readme = readme.replace(/\[\d\d\d\]\(#gzip-size\)/g, '[' + gzip + '](#gzip-size)')
-    readme = readme.replace(/\<sub\>\<sup\>\d(\d)?\.\d(\d)?\.\d(\d)?\<\/sup\>\<\/sub\>/g, `<sub><sup>${v}</sup></sub>`)
+    readme = readme.replace(/\<sub\>\<sup\>\d(\d)?\.\d(\d)?\.\d(\d)?(-([a-zA-Z0-9\.])*)\<\/sup\>\<\/sub\>/g, `<sub><sup>${v}</sup></sub>`)
     readme = readme.replace(/&v=\d(\d)?\.\d(\d)?\.\d(\d)?/g, `&v=${v}`)
-    readme = readme.replace(/anylogger@\d(\d)?\.\d(\d)?\.\d(\d)?/g, `anylogger@${v}`)
+    readme = readme.replace(/anylogger@\d(\d)?\.\d(\d)?\.\d(\d)?(-([a-zA-Z0-9\.])*)?/g, `anylogger@${v}`)
     readme = readme.replace(/\>\=\d(\d)?\.\d(\d)?\.\d(\d)?/g, `>=${v}`)
     fs.writeFileSync('README.md', readme, 'utf8')
     log('info', 'updated README.md')

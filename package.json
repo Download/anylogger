@@ -1,30 +1,40 @@
 {
   "name": "anylogger",
   "version": "1.0.11",
+  "type": "module",
   "description": "Get a logger. Any logger.",
   "src": "./anylogger.js",
-  "main": "./anylogger.cjs.js",
+  "main": "./anylogger.js",
+  "cjs": "./anylogger.cjs",
   "iife": "./anylogger.iife.js",
   "min": "./anylogger.min.js",
   "types": "./anylogger.d.ts",
   "spec": "./anylogger.spec.js",
   "unpkg": "./anylogger.min.js",
+  "exports": {
+    ".": {
+      "import": "./anylogger.js",
+      "require": "./anylogger.cjs"
+    }
+  },
   "files": [
-    "anylogger.js",
-    "anylogger.cjs.js",
-    "anylogger.iife.js",
-    "anylogger.min.js",
+    "anylogger.cjs",
     "anylogger.d.ts",
+    "anylogger.d.ts.map",
+    "anylogger.iife.js",
+    "anylogger.js",
+    "anylogger.min.js",
     "anylogger.spec.js",
-    "test.html"
+    "anylogger.ts"
   ],
   "scripts": {
-    "build": "npm run test -s && npm run minify -s && npm run docs -s",
+    "build": "tsc && npm run test -s && npm run minify -s && npm run docs -s",
+    "clean": "rimraf anylogger.cjs anylogger.d.ts anylogger.d.ts.map anylogger.iife.js anylogger.js anylogger.js.map anylogger.min.js",
     "docs": "cross-env NODE_ENV=production node build.js docs",
     "minify": "cross-env NODE_ENV=production node build.js minify",
     "package": "cross-env NODE_ENV=production rollup -c",
     "prepare": "npm run build",
-    "test": "npm run package -s && tsc && node ./test.js && mocha anylogger.spec.js"
+    "test": "npm run package -s && mocha anylogger.spec.js"
   },
   "author": "Stijn de Witt",
   "license": "MIT",
@@ -32,16 +42,17 @@
     "type": "git",
     "url": "git+ssh://git@github.com:download/anylogger.git"
   },
-  "dependencies": {},
   "devDependencies": {
-    "chai": "^4.3.4",
+    "@types/node": "^20.11.19",
+    "chai": "^5.1.0",
     "cross-env": "^7.0.3",
-    "gzip-size": "^6.0.0",
-    "mocha": "^8.3.2",
-    "rollup": "^2.44.0",
-    "sinon": "^10.0.0",
-    "typescript": "^4.2.3",
-    "uglify-js": "^3.13.3"
+    "gzip-size": "^7.0.0",
+    "mocha": "^10.3.0",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.12.0",
+    "sinon": "^17.0.1",
+    "typescript": "^5.3.3",
+    "uglify-js": "^3.17.4"
   },
   "keywords": [
     "anylogger",
