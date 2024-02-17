@@ -121,15 +121,15 @@ start to use that framework. Wouldn't it be much better and easier?
 
 ## Download
 
-* [anylogger.ts](https://unpkg.com/anylogger@1.0.11/anylogger.ts)
+* [anylogger.ts](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.ts)
   (fully commented source ~6kB)
-* [anylogger.d.ts](https://unpkg.com/anylogger@1.0.11/anylogger.d.ts)
+* [anylogger.d.ts](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.d.ts)
   (typescript type definitions ~5kB)
-* [anylogger.js](https://unpkg.com/anylogger@1.0.11/anylogger.js)
+* [anylogger.js](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.js)
   (transpiled es6 ecmascript module ~1kB)
-* [anylogger.cjs](https://unpkg.com/anylogger@1.0.11/anylogger.cjs)
+* [anylogger.cjs](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.cjs)
   (transpiled es6 commonjs module ~1kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@1.0.11/anylogger.min.js)
+* [anylogger.min.js](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.min.js)
   (minified 361 bytes, gzipped ~[264](#gzip-size) bytes)
 
 
@@ -137,7 +137,7 @@ start to use that framework. Wouldn't it be much better and easier?
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@1.0.11"></script>
+<script src="https://unpkg.com/anylogger@1.1.0-beta.0"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -585,7 +585,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method.
 
 Please have a look at the
-[source](https://unpkg.com/anylogger@1.0.11/anylogger.js)
+[source](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
