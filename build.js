@@ -1,20 +1,13 @@
 import fs from 'fs'
 import UglifyJS from 'uglify-js'
 import { gzipSizeSync } from 'gzip-size'
-// be uber-cool and use anylogger to print the logging in the build of anylogger :)
+// be uber-cool and use anylogger-console to print the logging in the build of anylogger :)
+import adapter from 'anylogger-console'
 import anylogger from 'anylogger'
-// overwrite the no-op adapter
-anylogger.ext = (logfn) => {
-  logfn.enabledFor = () => true
-  for (const level in anylogger.levels) {
-    logfn[level] = console[level]
-  }
-  return logfn
-}
-
+adapter(anylogger)
 const log = anylogger('anylogger:build')
 
-var [ processName, script, command, ...args ] = process.argv
+var [ processName, script, command, ...processArgs ] = process.argv
 var pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
 var v = pkg.version
 
