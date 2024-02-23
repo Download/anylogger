@@ -1,6 +1,6 @@
 {
   "name": "anylogger",
-  "version": "1.1.0-beta.2",
+  "version": "1.1.0-beta.3",
   "description": "Get a logger. Any logger.",
   "type": "module",
   "exports": {
@@ -9,7 +9,7 @@
       "require": "./anylogger.cjs"
     }
   },
-  "src": "./anylogger.js",
+  "src": "./anylogger.ts",
   "main": "./anylogger.js",
   "cjs": "./anylogger.cjs",
   "iife": "./anylogger.iife.js",

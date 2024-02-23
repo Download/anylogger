@@ -143,22 +143,25 @@ export type HasExtension = {
  */
 export type Extension = (logfn: LogFunction) => Logger
 
-/**
- * An Adapter accepts the AnyLogger function and adapts it
- * by overriding the default extension
- */
-export type Adapter = (anylogger: AnyLogger) => void
+// a default no-op extension
+const noop: Extension = (logfn: LogFunction): Logger => {
+  (logfn as Logger).enabledFor = ()=>{}
+  for (const lvl in anylogger.levels) {
+    (logfn as Logger)[lvl as LogLevel] = ()=>{}
+  }
+  return logfn as Logger
+}
 
 // anylogger.ext extends the given `logger` function
 // the implementation here only adds no-ops
 // adapters should change this behavior
-anylogger.ext = (logger: LogFunction): Logger => {
-  (logger as Logger).enabledFor = ()=>{}
-  for (const lvl in anylogger.levels) {
-    (logger as Logger)[lvl as LogLevel] = ()=>{}
-  }
-  return logger as Logger
-}
+anylogger.ext = noop
+
+/**
+ * An Adapter accepts the `anyLogger` function and adapts it
+ * by overriding the default extension
+ */
+export type Adapter = (anylogger: AnyLogger) => void
 
 /**
  * Anylogger supports the concept of levels.
@@ -195,11 +198,11 @@ export type HasLevels = {
 /**
  * A log level is a string that is a key of `LogLevels`
  */
-export type LogLevel = keyof LogLevels
+export type LogLevel = string
 
 /**
  * A mapping of level name `string` to level `number` that consists
- * at least the keys from `logLevels`
+ * of at least the keys from `logLevels` plus arbitrary other keys
  */
 export type LogLevels = typeof logLevels & { [level: string]: number }
 

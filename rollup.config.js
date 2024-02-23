@@ -4,7 +4,7 @@ import pkg from './package.json' assert { type: "json" };
 
 export default [
 	{
-		input: pkg.src,
+		input: pkg.main,
 
 		output: [
       // commonjs build
