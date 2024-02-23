@@ -8,14 +8,162 @@
  */
 
 /**
- * Gets or creates a logger by name
+ * Gets or creates a logger by name.
+ *
+ * Acts as a store for all loggers created so far,
+ * as a factory to create new loggers and as an
+ * adapter (the no-op adapter) to extend the loggers.
+ *
+ * Anylogger has the concept of levels and it can be
+ * used as a delegate to log with a certain logger.
  */
-export type AnyLogger = ((name: LoggerName) => Logger) & {
+export type AnyLogger = GetLogger
+    & HasStore & HasFactory & HasExtension
+    & HasLevels & HasDelegate
 
+/**
+ * Gets a logger by `name`.
+ */
+export type GetLogger = (name: string) => Logger
+
+/**
+ * A logger is a log function that has a `name` that corresponds to the logger
+ * name, a method `enabledFor(level: LogLevel)` to check whether the logger is
+ * enabled for a certain log level, and log methods for each of the log levels
+ * supported by AnyLogger: `error`, `warn`, `info`, `log`, `debug` and `trace`.
+ */
+export type Logger = LogFunction & LogObject & {
+  readonly name: string
+  enabledFor: (level?: LogLevel) => boolean | void
+}
+
+/**
+ * A log function is a function that takes a variable amount of
+ * arguments and returns void.
+ */
+export type LogFunction = (...args: any) => void
+
+/**
+ * A log object is an object that has methods corresponding to all
+ * supported log levels, where each method is a log function.
+ */
+export type LogObject = {
+  [P in keyof LogLevels as `${P}`]: LogFunction
+}
+
+// the main `anylogger` function
+const anylogger: AnyLogger = (name) => (
+  // return the existing logger, or
+  anylogger.all[name] ||
+  // create and store a new logger with that name
+  (anylogger.all[name] = anylogger.ext(anylogger.new(name)))
+)
+
+/**
+ * Stores all loggers created so far
+ */
+export type HasStore = {
+  all: AllLoggers
+}
+
+/**
+ * All loggers, keyed by name
+ */
+export type AllLoggers = {
+  [name: string]: Logger
+}
+
+// anylogger.all stores all loggers created so far
+anylogger.all = Object.create(null) as AllLoggers
+
+/**
+ * Anylogger creates new loggers when needed
+ */
+export type HasFactory = {
   /**
-   * Stores all loggers created so far
+   * Called when a new logger needs to be created.
+   *
+   * The default implementation creates a log function that
+   * allows for an optional first argument, preceding the
+   * message argument(s), to specify the level to call.
+   *
+   * @param name The name for the new logger
+   * @returns The newly created logger
    */
-  all: AllLoggers;
+  new: FactoryFunction
+}
+
+/**
+ * Returns a new log function for the given logger `name`
+ */
+export type FactoryFunction = (name: string) => LogFunction
+
+// anylogger.new creates a new named log function
+anylogger.new = (name) => (
+  // to assign the function `name`, set it to a named key in an object.
+  // the default implementation calls `anylogger.log`, which should be a
+  // good choice in most cases.
+  { [name]: (...args: any[]) => anylogger.log(name, ...args) }
+  // return only the function, not the encapsulating object
+  [name]
+)
+
+/**
+ * Has a method `ext` which is an extension
+ */
+export type HasExtension = {
+  /**
+   * Called when a log function needs to be extended, either because it was
+   * newly created, or because it's configuration or settings changed.
+   *
+   * This function implements `enabledFor` and a log method for
+   * each level in `anylogger.levels` on the given `logfn`.
+   *
+   * This function can safely be called multiple times on the same `logfn`.
+   *
+   * The default extension provided here is essentially a no-op extension.
+   *
+   * Adapters for common logging frameworks such as the
+   * [console](https://npmjs.com/package/anylogger-console),
+   * [debug](https://npmjs.com/package/anylogger-debug),
+   * [loglevel](https://npmjs.com/package/anylogger-loglevel),
+   * [ulog](https://npmjs.com/package/ulog) and
+   * [log4js](https://npmjs.com/package/log4js) override
+   * this default extension.
+   *
+   * @param logfn The log function to be extended
+   *
+   * @return The log function that was given, extended to a Logger
+   */
+  ext: Extension
+}
+
+/**
+ * An extension accepts a LogFunction and returns a Logger
+ */
+export type Extension = (logfn: LogFunction) => Logger
+
+/**
+ * An Adapter accepts the AnyLogger function and adapts it
+ * by overriding the default extension
+ */
+export type Adapter = (anylogger: AnyLogger) => void
+
+// anylogger.ext extends the given `logger` function
+// the implementation here only adds no-ops
+// adapters should change this behavior
+anylogger.ext = (logger: LogFunction): Logger => {
+  (logger as Logger).enabledFor = ()=>{}
+  for (const lvl in anylogger.levels) {
+    (logger as Logger)[lvl as LogLevel] = ()=>{}
+  }
+  return logger as Logger
+}
+
+/**
+ * Anylogger supports the concept of levels.
+ */
+export type HasLevels = {
 
   /**
    * An object containing a mapping of level names to level values.
@@ -41,21 +189,32 @@ export type AnyLogger = ((name: LoggerName) => Logger) & {
    * ensure to always include the default levels and to have a log method for
    * each level, so all code can rely on that contract.
    */
-  levels: { [level: string]: number; };
+  levels: LogLevels;
+}
 
-  /**
-   * Called when a new logger needs to be created.
-   *
-   * The default implementation creates a log function that
-   * allows for an optional first argument, preceding the
-   * message argument(s), to specify the level to call.
-   *
-   *
-   * @param name The name for the new logger
-   * @returns The newly created logger
-   */
-  new: (name: LoggerName) => LogFunction
+/**
+ * A log level is a string that is a key of `LogLevels`
+ */
+export type LogLevel = keyof LogLevels
 
+/**
+ * A mapping of level name `string` to level `number` that consists
+ * at least the keys from `logLevels`
+ */
+export type LogLevels = typeof logLevels & { [level: string]: number }
+
+/**
+ * A default set of level name/value pairs that maps well to the console.
+ */
+const logLevels = { error: 1, warn: 2, info: 3, log: 4, debug: 5, trace: 6 }
+
+// the minimal supported levels
+anylogger.levels = logLevels
+
+/**
+ * You can call any logger via anylogger
+ */
+export type HasDelegate = {
   /**
    * Called by the log function that the default implementation of
    * `anylogger.new` creates.
@@ -70,11 +229,17 @@ export type AnyLogger = ((name: LoggerName) => Logger) & {
    * E.g.
    *
    * ```ts
-   * log('message')          // calls log.log('message')
-   * log('error')            // calls log.log('error')
-   * log('info', 'message')  // calls log.info('message')
-   * log('error', 'message') // calls log.error('message')
-   * log('Hello', 'World!')  // calls log.log('Hello', 'World!')
+   * import anylogger from 'anylogger'
+   * // calls anylogger('my-log').log('message')
+   * anylogger.log('my-log', 'message')
+   * // calls anylogger('my-log').log('error')
+   * anylogger.log('my-log', 'error')
+   * // calls anylogger('my-log').info('message')
+   * anylogger.log('my-log', 'info', 'message')
+   * // calls anylogger('my-log').error('message')
+   * anylogger.log('my-log', 'error', 'message')
+   * // calls anylogger('my-log').log('Hello', 'World!')
+   * anylogger.log('my-log', 'Hello', 'World!')
    * ```
    *
    * Having this code in anylogger makes writing adapters easier, because
@@ -84,102 +249,22 @@ export type AnyLogger = ((name: LoggerName) => Logger) & {
    * @param name The name of the logger
    * @param args The arguments for the logger
    */
-  log: (name: LoggerName, ...args: any) => void
-
-  /**
-   * Called when a log function needs to be extended, either because it was
-   * newly created, or because it's configuration or settings changed.
-   *
-   * This function implements `enabledFor` and a log method for
-   * each level in `anylogger.levels` on the given `logfn`.
-   *
-   * This function can safely be called multiple times on the same `logfn`.
-   *
-   * The default adapter provided here is essentially a no-op adapter.
-   * Adapters for common logging frameworks such as the
-   * [console](https://npmjs.com/package/anylogger-console),
-   * [debug](https://npmjs.com/package/anylogger-debug),
-   * [loglevel](https://npmjs.com/package/anylogger-loglevel),
-   * [ulog](https://npmjs.com/package/ulog) and
-   * [log4js](https://npmjs.com/package/log4js) override
-   * this default adapter.
-   *
-   * @param logfn The log function to be extended
-   *
-   * @return The log function that was given, extended to a Logger
-   */
-  ext: Adapter
+  log: Delegate
 }
 
 /**
- * A log function is a function that takes a variable amount of
- * arguments and returns void.
+ * Method that takes a logger name and arguments and calls the right log method
+ * based on that information.
+ *
+ * This function inspects the given `args` to identify the log level and then
+ * calls the log method corresponding to that level on the logger with `name`.
  */
-export type LogFunction = (...args: any) => void
-
-/**
- * An adapter accepts a LogFunction and returns a Logger
- */
-export type Adapter = (logfn: LogFunction) => Logger
-
-/**
- * A logger is a log function that has a `name` that corresponds to the logger
- * name, a method `enabledFor(level: LogLevel)` to check whether the logger is
- * enabled for a certain log level, and log methods for each of the log levels
- * supported by AnyLogger: `error`, `warn`, `info`, `log`, `debug` and `trace`.
- */
-export type Logger = LogFunction & {
-  readonly name: LoggerName;
-  enabledFor: (level?: LogLevel) => boolean | void;
-} & {
-  [P in keyof LogLevels as `${P}`]: LogFunction;
-}
-
-export type LogLevels = { error:1, warn:2, info:3, log:4, debug:5, trace:6 }
-
-/**
- * A log level is a string that is a key of `LogLevels`
- */
-export type LogLevel = keyof LogLevels
-
-/**
- * All loggers, keyed by name
- */
-export type AllLoggers = {
-  [name: string]: Logger
-}
-
-/**
- * An alias for the much used concept of a LoggerName
- */
-export type LoggerName = string
-
-// the main `anylogger` function
-const anylogger: AnyLogger = (name) => (
-  // return the existing logger, or
-  anylogger.all[name] ||
-  // create and store a new logger with that name
-  (anylogger.all[name] = anylogger.ext(anylogger.new(name)))
-)
-
-// all loggers created so far
-anylogger.all = Object.create(null) as AllLoggers;
-
-// the supported levels
-anylogger.levels = { error: 1, warn: 2, info: 3, log: 4, debug: 5, trace: 6 }
-
-// creates a new named log function
-anylogger.new = (name: LoggerName): LogFunction => ({
-  // to assign the function `name`, set it to a named key in an object.
-  // the default implementation calls `anylogger.log`, which should be a
-  // good choice in many cases.
-  [name]: (...args: any) => anylogger.log(name, ...args)
-}[name]) // return only the function, not the encapsulating object
+export type Delegate = (name: string, ...args: any[]) => void
 
 // logs with the logger with the given `name`
-anylogger.log = (name: LoggerName, ...args: any) => {
+anylogger.log = (name, ...args) => (
   // select the logger to use
-  anylogger.all[name][
+  anylogger(name)[
     // select the level to use
     // if multiple args and first matches a level name
     (((args.length > 1) && anylogger.levels[args[0] as LogLevel])
@@ -187,19 +272,8 @@ anylogger.log = (name: LoggerName, ...args: any) => {
       : 'log'   // else use default level `'log'`
     ) as LogLevel
   ](...args) // call method matching level with remaining args
-}
+)
 
-// extends the given `logger` function
-// the implementation here only adds no-ops
-// adapters should change this behavior
-anylogger.ext = (logger: LogFunction): Logger => {
-  (logger as Logger).enabledFor = ()=>{}
-  for (const method in anylogger.levels) {
-    (logger as Logger)[method as LogLevel] = ()=>{}
-  }
-  return logger as Logger
-}
-
-// this is a real ESM module
+// this is an esm module
 // we transpile the compiled Javascript back to commonjs with rollup
 export default anylogger

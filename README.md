@@ -1,4 +1,4 @@
-# anylogger <sub><sup>1.0.11</sup></sub>
+# anylogger <sub><sup>1.1.0-beta.1</sup></sub>
 ### Get a logger. Any logger.
 
 [![npm](https://img.shields.io/npm/v/anylogger.svg)](https://npmjs.com/package/anylogger)
@@ -30,20 +30,23 @@ just that.
   </tr>
   <tr>
     <td><h5>Install</h5>
-      <pre>npm i -P anylogger</pre>
+      <pre>npm i -D anylogger</pre>
       <h5>Use</h5>
       <pre>import anylogger from 'anylogger'
 const log = anylogger('my-library')
 log('Anylogger is easy!')</pre>
-      <p>Install your preferred logger
-      and it's adapter as <a href="#install-dev-dependencies-in-a-library-project">dev dependencies</a>.</p>
+      <p>Add to peerDependencies and install
+      an adapter as <a href="#install-dev-dependencies-in-a-library-project"
+      >dev dependencies</a>.</p>
     </td>
     <td><h5>Install</h5>
       <pre>npm i -P anylogger
  debug anylogger-debug</pre>
       <h5>Add to entry point</h5>
       <i>index.js</i>
-      <pre>import "anylogger-debug"</pre>
+      <pre>import adapter from "anylogger-debug"
+import anylogger from 'anylogger'
+adapter(anylogger)</pre>
       <h5>Use</h5>
       <pre>import anylogger from 'anylogger'
 const log = anylogger('my-app')
@@ -54,7 +57,9 @@ log('Anylogger is easy!')</pre>
  loglevel anylogger-loglevel</pre>
       <h5>Add to entry point</h5>
       <i>index.js</i>
-      <pre>import "anylogger-loglevel"</pre>
+      <pre>import adapter from "anylogger-loglevel"
+import anylogger from 'anylogger'
+adapter(anylogger)</pre>
       <h5>Use</h5>
       <pre>import anylogger from 'anylogger'
 const log = anylogger('my-app')
@@ -65,7 +70,9 @@ log('Anylogger is easy!')</pre>
  ulog</pre>
       <h5>Add to entry point</h5>
       <i>index.js</i>
-      <pre>import "ulog"</pre>
+      <pre>import adapter from "ulog"
+import anylogger from 'anylogger'
+adapter(anylogger)</pre>
       <h5>Use</h5>
       <pre>import anylogger from 'anylogger'
 const log = anylogger('my-app')
@@ -76,7 +83,9 @@ log('Anylogger is easy!')</pre>
  log4js anylogger-log4js</pre>
       <h5>Add to entry point</h5>
       <i>index.js</i>
-      <pre>import "anylogger-log4js"</pre>
+      <pre>import adapter from "anylogger-log4js"
+import anylogger from 'anylogger'
+adapter(anylogger)</pre>
       <h5>Use</h5>
       <pre>import anylogger from 'anylogger'
 const log = anylogger('my-app')
@@ -107,37 +116,37 @@ for popular loggers.
 
 ### Introducing `anylogger`
 
-A tiny ~[264](#gzip-size) bytes logging facade that you can include in your
+A tiny ~[259](#gzip-size) bytes logging facade that you can include in your
 library to support logging, while at the same time allowing application
 developers to plug in any logging framework they choose.
 
 Instead of building in your own library specific configuration mechanism,
 or forcing the choice for a certain logging framework on your users,
 or just abandoning logging altogether, choose `anylogger` and for just
-~[264](#gzip-size) bytes shared between all libraries doing this, we can
+~[259](#gzip-size) bytes shared between all libraries doing this, we can
 plug in any framework of our choice and all libraries will automatically
 start to use that framework. Wouldn't it be much better and easier?
 
 
 ## Download
 
-* [anylogger.ts](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.ts)
-  (fully commented source ~6kB)
-* [anylogger.d.ts](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.d.ts)
-  (typescript type definitions ~5kB)
-* [anylogger.js](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.js)
-  (transpiled es6 ecmascript module ~1kB)
-* [anylogger.cjs](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.cjs)
-  (transpiled es6 commonjs module ~1kB)
-* [anylogger.min.js](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.min.js)
-  (minified 361 bytes, gzipped ~[264](#gzip-size) bytes)
+* [anylogger.ts](https://unpkg.com/anylogger@1.1.0-beta.1/anylogger.ts)
+  (fully commented source ~7kB)
+* [anylogger.d.ts](https://unpkg.com/anylogger@1.1.0-beta.1/anylogger.d.ts)
+  (typescript type definitions ~6kB)
+* [anylogger.js](https://unpkg.com/anylogger@1.1.0-beta.1/anylogger.js)
+  (javascript esm module ~2kB)
+* [anylogger.cjs](https://unpkg.com/anylogger@1.1.0-beta.1/anylogger.cjs)
+  (javascript commonjs module ~2kB)
+* [anylogger.min.js](https://unpkg.com/anylogger@1.1.0-beta.1/anylogger.min.js)
+  (minified 355 bytes, gzipped ~[259](#gzip-size) bytes)
 
 
 ## CDN
 
 *index.html*
 ```html
-<script src="https://unpkg.com/anylogger@1.1.0-beta.0"></script>
+<script src="https://unpkg.com/anylogger@1.1.0-beta.1"></script>
 <script>(function(){ // IIFE
   var log = anylogger('index.html')
   log.info('Logging is simple!')
@@ -151,58 +160,8 @@ For example, to send all logging to the console, you can use
 
 ## Install
 
-Depending on your project type, install anylogger, your logging framework of
-choice and an anylogger adapter if needed.
-
-### Install in a library project
-
-If you are building a library, install anylogger as a dependency:
-
-```sh
-npm install --save anylogger
-```
-
-This will add `anylogger` as a dependency to your `package.json`.
-
-### Install dev dependencies in a library project
-
-If you are building a library, you can use the logging framework
-you prefer without tightly coupling your library to it by installing
-that library and the adapter for it if needed as development dependencies:
-
-**For [anylogger-console](https://npmjs.com/package/anylogger-console)**:
-
-```sh
-npm install --save-dev anylogger-console
-```
-
-**For [debug](https://npmjs.com/package/debug)**:
-
-```sh
-npm install --save-dev debug anylogger-debug
-```
-> See [anylogger-debug](https://npmjs.com/package/anylogger-debug)
-
-**For [loglevel](https://npmjs.com/package/loglevel)**:
-
-```sh
-npm install --save-dev loglevel anylogger-loglevel
-```
-> See [anylogger-loglevel](https://npmjs.com/package/anylogger-loglevel)
-
-**For [ulog](https://npmjs.com/package/ulog)**:
-
-```sh
-npm install --save-dev ulog
-```
-> No adapter is needed for `ulog`
-
-**For [log4js](https://npmjs.com/package/log4js)**:
-
-```sh
-npm install --save-dev log4js anylogger-log4js
-```
-> See [anylogger-log4js](https://npmjs.com/package/anylogger-log4js)
+Always only install anylogger in application projects. In library projects,
+install anylogger as a dev dependency and make it a peer dependency.
 
 ### Install in an application project
 
@@ -248,117 +207,220 @@ Check out all
 [available adapters](https://www.npmjs.com/search?q=keywords:anylogger).
 
 
-## Include
+### Install in a library project
 
-Depending on the type of project, either just use anylogger, or also include the adapter.
+If you are building a library, install anylogger as a dev-dependency:
 
-### Include in a library
+```sh
+npm install --save-dev anylogger
+```
+
+This will add `anylogger` as a dev-dependency to your `package.json`.
+
+To ensure that application projects using your library also install
+`anylogger`, make it a peer dependency. Add this to *package.json*:
+
+```json
+"peerDependencies": {
+  "anylogger": "1.x || >=1.1.0-beta || >=1.2.0-beta || >=1.3.0-beta || >=1.4.0-beta || >=1.5.0-beta || >=1.6.0-beta || >=1.7.0-beta || >=1.8.0-beta || >=1.9.0-beta"
+}
+```
+
+>
+> The list of (future) betas is an annoyance in the way NPM deals with beta
+> tags unfortunately. IMHO it is clear that `1.1.0-beta` matches `1.x` and
+> should thus be covered by it, but alas, NPM thinks otherwise.
+>
+> If you want your library to also work with possible future betas of
+> anylogger, then include this list of betas (recommended).
+>
+
+Add anylogger to your install instructions in your project README.md:
+
+>
+> ### Install
+>
+> `npm install --save my-library anylogger`
+>
+
+### Install dev dependencies in a library project
+
+If you are building a library, you can use the logging framework
+you prefer without tightly coupling your library to it by installing
+that library and the adapter for it if needed as development dependencies:
+
+**For [anylogger-console](https://npmjs.com/package/anylogger-console)**:
+
+```sh
+npm install --save-dev anylogger-console
+```
+
+**For [debug](https://npmjs.com/package/debug)**:
+
+```sh
+npm install --save-dev debug anylogger-debug
+```
+> See [anylogger-debug](https://npmjs.com/package/anylogger-debug)
+
+**For [loglevel](https://npmjs.com/package/loglevel)**:
+
+```sh
+npm install --save-dev loglevel anylogger-loglevel
+```
+> See [anylogger-loglevel](https://npmjs.com/package/anylogger-loglevel)
+
+**For [ulog](https://npmjs.com/package/ulog)**:
+
+```sh
+npm install --save-dev ulog
+```
+> No adapter is needed for `ulog`
+
+**For [log4js](https://npmjs.com/package/log4js)**:
+
+```sh
+npm install --save-dev log4js anylogger-log4js
+```
+> See [anylogger-log4js](https://npmjs.com/package/anylogger-log4js)
+
+
+## Use
+
+Depending on the type of project, either just use anylogger,
+or also include the adapter.
+
+### Use in a library
 
 In your library code, only use anylogger and restrict yourself to the
 [Anylogger API](#anylogger-api) to stay framework-independent:
-
-#### require
-*my-library.js*
-```js
-var log = require('anylogger')('my-library')
-```
 
 #### import
 *my-library.js*
 ```js
 import anylogger from 'anylogger'
 const log = anylogger('my-library')
+log.info('Logging is easy!')
+```
+
+#### require
+*my-library.js*
+```js
+const anylogger = require('anylogger')
+const log = anylogger('my-library')
+log.info('Logging is easy!')
 ```
 
 > This way, your library does not get tightly coupled to any specific logger
 
-### Include in tests for your library
+### Use in tests for your library
 
-In the tests for your library code, you can include an adapter and make your
-library use the logging framework of your choice without having to add it as a
-dependency for your library. You can add them as
-[development dependencies](#install-dev-dependencies-in-a-library-project).
-
-#### require
-*my-library.test.js*
-```js
-// e.g. for ulog
-require('ulog')
-// all anylogger loggers will use ulog
-var log = require('anylogger')('my-lbrary:test')
-```
+If you have installed an adapter as a dev dependency, you can use that adapter
+in your tests so you get the logging the way you like it in your tests.
 
 #### import
 *my-library.test.js*
 ```js
-// e.g. for ulog
-import 'ulog'
-// all anylogger loggers will use ulog
+// e.g. for anylogger-console
+import 'anylogger-console'
+// all loggers will now use the console
 import anylogger from 'anylogger'
 const log = anylogger('my-lbrary:test')
+log.info('Logging is easy!')
 ```
-
-### Include in an application project
-
-In your main entry point, include your adapter or library with native support
-so it extends anylogger:
 
 #### require
-*main.js*
+*my-library.test.js*
 ```js
-// e.g. for debug
-require('anylogger-debug')
-// all anylogger loggers will use debug
+// e.g. for anylogger-console
+require('anylogger-console')
+// all loggers will now use the console
+const anylogger = require('anylogger')
+const log = anylogger('my-lbrary:test')
+log.info('Logging is easy!')
 ```
+
+### Use in an application project
+
+Install anylogger, your logging framework of choice and an adapter
+if needed as regular dependencies. Then, in your main entry point,
+include the adapter along with anylogger:
 
 #### import
 *main.js*
 ```js
-// e.g. for debug
-import 'anylogger-debug'
-// all anylogger loggers will use debug
+// e.g. for anylogger-console
+import adapter from 'anylogger-console'
+import anylogger from 'anylogger'
+adapter(anylogger)
+// all loggers will now use the console
+const log = anylogger('my-app')
+log.info('Logging is easy!')
 ```
-
-In your other modules, use only anylogger and restrict yourself to the
-[Anylogger API](#anylogger-api) to stay framework-independent:
 
 #### require
-*my-module.js*
+*main.js*
 ```js
-var log = require('anylogger')('my-module')
+// e.g. for anylogger-console
+const adapter = require('anylogger-console')
+const anylogger = require('anylogger')
+adapter(anylogger)
+// all loggers will now use the console
+const log = anylogger('my-app')
+log.info('Logging is easy!')
 ```
+
+In your other application modules, use only anylogger and restrict yourself to
+the [Anylogger API](#anylogger-api) to stay framework-independent:
 
 #### import
 *my-module.js*
 ```js
 import anylogger from 'anylogger'
 const log = anylogger('my-module')
+log.info('Logging is easy!')
 ```
 
+#### require
+*my-module.js*
+```js
+const anylogger = require('anylogger')
+const log = anylogger('my-module')
+log.info('Logging is easy!')
+```
 
-## Using anylogger
+By limiting yourself to the anylogger API, you ensure that even the code in
+your aplication modules remains logging framework independent. That way,
+you can easily turn an application module into a library later should the
+need arise. Or should you want to switch logging libraries, you will be able
+to do that by only changing that one single line that imports the adapter
+in the entrypoint in *main.js* or whatever your main file is called.
+
+## Using anylogger for logging
 
 Anylogger is very natural to use:
 
 ```js
-var log = require('anylogger')('my-module')
+import anylogger from 'anylogger'
+const log = anylogger('my-module')
 
+// the log object is itself a function
+// this increases interop with `debug`
 log('A log message')
 log('debug', 'A debug message')
 log('warn', 'A warning message')
-log.info(log.name + ' starting...')
-log.error('Something went wrong', new Error('Oh no!'))
+
+// the log object also has methods,
+// increasing interop with the console
+log.info('Starting...')
+log.warn('Watch out!')
+log.error('Oh no!! Something went wrong')
+
+// the log API supports the concept of levels
+Object.keys(anylogger.levels)
+// > ['error', 'warn', 'info', 'log', 'debug', 'trace']
 if (log.enabledFor('warn')) {
   log.warn(expensiveArguments())
 }
-```
-
-If you are able to restrict yourself to the [Anylogger API](#anylogger-api),
-your code will be framework independent and will work with any supported
-logging library.
-
-```js
-log.info('Logging is easy!')
 ```
 
 
@@ -369,36 +431,34 @@ So what does this API look like?
 ### anylogger
 
 ```js
-function anylogger(name, options) => logger
+function anylogger(name: string) => Logger
 ```
 
 The main function to call to get a logger.
-Accepts two arguments.
+Accepts the logger name as argument.
 
 #### name
-The name of the logger. String. Optional. Defaults to `undefined`.
+The name of the logger. String.
 The recommended format is `<package-name>[:<sub>[:<sub> [..]]]`,
 as this is the [convention](https://www.npmjs.com/package/debug#conventions)
-used by the highly popular `debug` module. But you are free to pick any name
-you want. You only get a logger if you supply a name. If the name is
-not given `anylogger()` will return an object containing all loggers,
-keyed by name.
+used by the highly popular `debug` module. But you are free to pick
+any name you want as long as you steer clear of the characters `'*'`,
+`'='` and `';'` in the logger name.
 
-#### options
-An optional options object. Object. Optional. Defaults to `undefined`.
-The use of such options objects varies wildly amongst implementations so
-it is recommended to avoid using it where possible. However in case of
-implementations that require it, anylogger passes any options object it
-is given on to [`anylogger.new`](#anyloggernew) to allow it to be used
-where needed.
+#### returns
+The existing logger with that name, or a newly created one.
 
-**When no arguments are given** anylogger returns an object containing
-all loggers created so far, keyed by name.
+The returned logger adheres to the `Logger` type:
 
-**When a name is given** anylogger returns the existing logger with that
-name, or creates a new one by calling [`anylogger.new`](#anyloggernew).
+```ts
 
-The returned logger adheres to the Logging API described below.
+```
+
+ This means it is a
+`LogFunction` and a `LogObject` all at once. The `LogFunction` aspect makes
+anylogger loggers compatible with `debug` out of the box, whereas the
+`LogObject` aspect makes them compatible with the console and most other
+logging libraries. I call that a Win-Win!
 
 
 ## Logging API
@@ -585,7 +645,7 @@ The log function returned by anylogger calls `anylogger.log`, which determines
 the log level and invokes the appropriate log method.
 
 Please have a look at the
-[source](https://unpkg.com/anylogger@1.1.0-beta.0/anylogger.js)
+[source](https://unpkg.com/anylogger@1.1.0-beta.1/anylogger.js)
 it should make it more clear how to write an adapter. Also consider studying
 the [available adapters](https://www.npmjs.com/search?q=keywords:anylogger)
 and learn by example.
