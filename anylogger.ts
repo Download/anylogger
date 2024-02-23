@@ -158,10 +158,11 @@ const noop: Extension = (logfn: LogFunction): Logger => {
 anylogger.ext = noop
 
 /**
- * An Adapter accepts the `anyLogger` function and adapts it
- * by overriding the default extension
+ * An Adapter accepts the `anyLogger` function and optionally
+ * some logging framework and adapts anylogger to that logging
+ * framework by overriding the default extension
  */
-export type Adapter = (anylogger: AnyLogger) => void
+export type Adapter = (anylogger: AnyLogger, framework?: any) => void
 
 /**
  * Anylogger supports the concept of levels.

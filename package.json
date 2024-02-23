@@ -1,6 +1,6 @@
 {
   "name": "anylogger",
-  "version": "1.1.0-beta.3",
+  "version": "1.1.0-beta.4",
   "description": "Get a logger. Any logger.",
   "type": "module",
   "exports": {
@@ -12,9 +12,9 @@
   "src": "./anylogger.ts",
   "main": "./anylogger.js",
   "cjs": "./anylogger.cjs",
+  "types": "./anylogger.d.ts",
   "iife": "./anylogger.iife.js",
   "min": "./anylogger.min.js",
-  "types": "./anylogger.d.ts",
   "spec": "./anylogger.spec.js",
   "unpkg": "./anylogger.min.js",
   "files": [
@@ -23,9 +23,11 @@
     "anylogger.d.ts.map",
     "anylogger.iife.js",
     "anylogger.js",
+    "anylogger.js.map",
     "anylogger.min.js",
     "anylogger.spec.js",
-    "anylogger.ts"
+    "anylogger.ts",
+    "tsconfig.json"
   ],
   "scripts": {
     "build": "tsc && npm run test -s && npm run minify -s && npm run docs -s",
