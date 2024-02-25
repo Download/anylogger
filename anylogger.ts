@@ -143,19 +143,16 @@ export type HasExtension = {
  */
 export type Extension = (logfn: LogFunction) => Logger
 
-// a default no-op extension
-const noop: Extension = (logfn: LogFunction): Logger => {
-  (logfn as Logger).enabledFor = ()=>{}
-  for (const lvl in anylogger.levels) {
-    (logfn as Logger)[lvl as LogLevel] = ()=>{}
-  }
-  return logfn as Logger
-}
-
 // anylogger.ext extends the given `logger` function
 // the implementation here only adds no-ops
 // adapters should change this behavior
-anylogger.ext = noop
+anylogger.ext = (logfn) => {
+  (logfn as Logger).enabledFor = ()=>{}
+  for (const lvl in anylogger.levels) {
+    (logfn as any)[lvl as LogLevel] = ()=>{}
+  }
+  return logfn as Logger
+}
 
 /**
  * An Adapter accepts the `anyLogger` function and optionally
@@ -202,10 +199,9 @@ export type HasLevels = {
 export type LogLevel = string
 
 /**
- * A mapping of level name `string` to level `number` that consists
- * of at least the keys from `logLevels` plus arbitrary other keys
+ * A mapping of level name `string` to level `number`
  */
-export type LogLevels = typeof logLevels & { [level: string]: number }
+export type LogLevels = typeof logLevels
 
 /**
  * A default set of level name/value pairs that maps well to the console.
@@ -268,10 +264,10 @@ export type Delegate = (name: string, ...args: any[]) => void
 // logs with the logger with the given `name`
 anylogger.log = (name, ...args) => (
   // select the logger to use
-  anylogger(name)[
+  (anylogger(name) as any)[
     // select the level to use
-    // if multiple args and first matches a level name
-    (((args.length > 1) && anylogger.levels[args[0] as LogLevel])
+    // if multiple args and first arg matches a level name
+    (((args.length > 1) && (anylogger as any).levels[args[0] as LogLevel])
       ? args.shift() // use the level from the args
       : 'log'   // else use default level `'log'`
     ) as LogLevel
